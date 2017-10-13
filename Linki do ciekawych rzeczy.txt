@@ -1,0 +1,12 @@
+Przydatne linki do komiwoja¿era:
+
+Symetryczny problem komiwoja¿era (STSP) polega na tym, ¿e dla dowolnych miast A i B
+ odleg³oœæ z A do B jest taka sama jak z B do A. W asymetrycznym problemie komiwoja¿era (ATSP) 
+odleg³oœci te mog¹ byæ ró¿ne.
+
+
+http://eduinf.waw.pl/inf/alg/001_search/0140.php
+
+https://pl.wikipedia.org/wiki/Problem_komiwoja%C5%BCera
+
+http://www.mini.pw.edu.pl/MiNIwyklady/grafy/prob-komiw.html
