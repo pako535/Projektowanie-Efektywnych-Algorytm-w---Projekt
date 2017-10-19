@@ -1,6 +1,22 @@
 import macierz
 
 
+
+#
+#
+#   Warunek do spełnienia w każdej kolumnie i każdym wierszu musi znajdywać się zero, więc jesli
+#   po odjęciu wierszy jakaś kolumna lub wiersz nie ma zera, to w danym wierszu lub kolumnie trzeba odjac minimum juz po
+#   wczesniejszego wiersza
+#
+#   Brak usuwania odpowiednich kolumn i wierszy
+#
+#
+
+
+
+
+
+
 # Wykorzystuje metode Litte'a (1962) dla algorytmu podziału i ograniczeń
 class Komiwojazer:
 
@@ -39,6 +55,62 @@ class Komiwojazer:
         #print('\n', self.list_of_min_in_row)
 
         return self.value_of_low_band
+
+    # funkcja szukająca dodatniego minimum większego od zera, chyba że w danym wierszu lub kolumnie zero występi więcej
+    # niż raz
+
+    def my_min(self, tab):
+
+        if tab[0] < 0:
+            min = tab[1]
+        else:
+            min = tab[0]
+
+        flag = False
+        for i in tab:
+            if i > 0 and min > i:
+                min = i
+            if flag == True and min > i and i >= 0:
+                min = i
+            if i == 0:
+                 flag = True
+
+        #print("\nMoje minimum: ", min)
+        return min
+
+
+
+    def find_min_in_row_and_column(self):
+
+        list_of_min_in_row = []
+        list_of_min_in_column = []
+
+
+        for i in range(self.count_row):
+            list_of_min_in_row.append(self.my_min(self.tab[i, :]))
+
+        for i in range(self.count_row):
+            list_of_min_in_column.append(self.my_min(self.tab[:, i]))
+
+        max_row = max(list_of_min_in_row)
+        max_column = max(list_of_min_in_column)
+        my_max = max(max_row,max_column)
+
+        k = 0
+        if max_row == my_max:
+            index_row = list_of_min_in_row.index(my_max)
+            print("\nIndeks w wierszu: ", index_row)
+            k = 1
+        else:
+            index_column = list_of_min_in_column.index(my_max)
+            print("\nIndeks w kolumnie: ", index_column)
+            k = 2
+
+        print("\nMax: ", my_max)
+        print("\nLista nowych minimów\nWiersze: ", list_of_min_in_row, "\nKolumny: ",list_of_min_in_column)
+
+
+
 
 
 

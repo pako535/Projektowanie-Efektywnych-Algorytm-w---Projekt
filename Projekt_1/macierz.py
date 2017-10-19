@@ -5,6 +5,8 @@ import math
 
 def creatematrix():
 
+
+
     file = 'gr17.tsp'
     tekst = open(file).read()
     # print(tekst)
