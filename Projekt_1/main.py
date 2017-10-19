@@ -1,0 +1,3 @@
+import macierz
+
+macierz.creatematrix()
