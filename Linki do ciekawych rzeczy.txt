@@ -5,6 +5,12 @@ Symetryczny problem komiwojazera (STSP) polega na tym, ¿e dla dowolnych miast A 
 odleglosci te moga byæ rozne.
 
 
+https://www.ii.uni.wroc.pl/~prz/2011lato/ah/opracowania/met_podz_ogr.pdf
+
+https://www.ii.uni.wroc.pl/~prz/2011lato/ah/opracowania/met_podz_ogr.opr.pdf
+
+http://www.gryf-elektryk.pl/sprawozdania/Rozwiazenie-problemu-komiwojazera-metoda-podzialu-i-ograniczen.pdf
+
 http://eduinf.waw.pl/inf/alg/001_search/0140.php
 
 https://pl.wikipedia.org/wiki/Problem_komiwoja%C5%BCera

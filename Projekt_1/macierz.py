@@ -1,15 +1,16 @@
 from numpy import*
 import linecache
-
+import sys
+import math
 
 def creatematrix():
 
     file = 'gr17.tsp'
     tekst = open(file).read()
-    print(tekst)
+    # print(tekst)
     tekst = tekst.split()
     tekst = tekst[15:]
-    print(tekst)
+    # print(tekst)
 
     dl = len(tekst)
 
@@ -21,23 +22,27 @@ def creatematrix():
     # print(tab)
 
     # wpisywanie do macierzy odległosci jako int a nie str
-    licznik = 0
+    counter = 0
+
+    infinity = -1
+
     for i in range(dimension):
         j = 0
         k = False
         while(True):
-            tab[i][j] = int(tekst[licznik])
-            tab[j][i] = int(tekst[licznik])
-            licznik += 1
+            if tekst[counter] == '0':
+                tekst[counter] = infinity
+            tab[i][j] = int(tekst[counter])
+            tab[j][i] = int(tekst[counter])
+            counter += 1
             j += 1
             k = True
-            if not(tekst[licznik - 1] != '0' and licznik - 1 < dl):
+            if not(tekst[counter - 1] != infinity and counter - 1 < dl):
                 break
 
         if k == False:
-             licznik += 1
-
-    print(tab)
+             counter += 1
+    #print(tab)
     return tab
 
 
