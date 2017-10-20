@@ -4,10 +4,11 @@ import macierz
 
 #
 #
-#   Warunek do spełnienia w każdej kolumnie i każdym wierszu musi znajdywać się zero, więc jesli
-#   po odjęciu wierszy jakaś kolumna lub wiersz nie ma zera, to w danym wierszu lub kolumnie trzeba odjac minimum juz po
-#   wczesniejszego wiersza
 #
+#   Brak poprawnego wyszukania maximum dla kolumny i wiersza, następnie dodanie do low band wartości minimalnej,
+#   następnie zablokowanie odpowiedniej kolumny lub wiersza.
+#                   ||
+#                   \/
 #   Brak usuwania odpowiednich kolumn i wierszy
 #
 #
@@ -26,7 +27,7 @@ class Komiwojazer:
         self.count_row = len(self.tab[:, 1])
         self.list_of_min_in_row = []
         self.value_of_low_band = 0
-
+        self.list_of_min_in_colum = []
 
     # Przy obliczaniu low band dla macierzy antysymetrycznej trzeba uwzględnić jeszcze pioneowe minima wg pkt b
     def low_bound(self):
@@ -34,27 +35,41 @@ class Komiwojazer:
         #jesli lista minimów jest pełna to usuń by uzupełnić od nowa
         if self.list_of_min_in_row:
             del self.list_of_min_in_row[ : ]
+        if self.list_of_min_in_colum :
+            del self.list_of_min_in_colum[ : ]
 
-                                                                                                            #count_row = len(self.tab[:, 1])
         #Przeszukanie wierszy w celu szukania minimum oraz odfiltrowanie 0
         for i in range(self.count_row):
             self.list_of_min_in_row.append(min(filter(lambda x:x>0 ,self.tab[i, :])))
 
-                                                                                                                        #list_of_min_in_colum = []
-                                                                                                                        # Przeszukanie kolumn w celu szukania minimum oraz odfiltrowanie 0, dla antysymetrycznych macierzy
-                                                                                                                   # for i in range(count_row):
-                                                                                                                        #     list_of_min_in_colum.append(min(filter(lambda x:x>0 ,self.tab[:, i])))
-        self.value_of_low_band = sum(self.list_of_min_in_row)
-
         #odejmowanie w wierszach
         for i in range(self.count_row):
             for j in range(self.count_row):
-                if self.tab[i, j] > 0:
-                    self.tab[i, j] = self.tab[i, j] - self.list_of_min_in_row[i]
+                if self.tab[i][j] > 0:
+                    self.tab[i][j] = self.tab[i][j] - self.list_of_min_in_row[i]
 
-        #print('\n', self.list_of_min_in_row)
+        # Przeszukanie kolumn w celu szukania minimum oraz odfiltrowanie 0
+        for i in range(self.count_row):
+            self.list_of_min_in_colum.append(min(filter(lambda x: x >= 0, self.tab[:, i])))
+
+        self.value_of_low_band = sum(self.list_of_min_in_row) + sum(self.list_of_min_in_colum)
+
+        print("\nLista min w wierszu: ", self.list_of_min_in_row, "\nLista w kolumnach: ",self.list_of_min_in_colum,
+              "\nSuma: ", self.value_of_low_band)
+
+
+        # odejmowanie w kolumnach
+        for i in range(self.count_row):
+            for j in range(self.count_row):
+                if self.tab[j][i] > 0:
+                    self.tab[j][i] = self.tab[j][i] - self.list_of_min_in_colum[i]
+
 
         return self.value_of_low_band
+
+
+
+
 
     # funkcja szukająca dodatniego minimum większego od zera, chyba że w danym wierszu lub kolumnie zero występi więcej
     # niż raz
@@ -79,8 +94,8 @@ class Komiwojazer:
         return min
 
 
-
-    def find_min_in_row_and_column(self):
+# tutaj skonczyłem
+    def find_max_in_row_and_column(self):
 
         list_of_min_in_row = []
         list_of_min_in_column = []
