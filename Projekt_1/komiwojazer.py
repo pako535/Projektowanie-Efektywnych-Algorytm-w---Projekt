@@ -95,39 +95,49 @@ class Komiwojazer:
 
 
 # tutaj skonczyłem
-    def find_max_in_row_and_column(self):
+#     def find_max_in_row_and_column(self):
+#
+#         list_of_min_in_row = []
+#         list_of_min_in_column = []
+#
+#
+#         for i in range(self.count_row):
+#             list_of_min_in_row.append(self.my_min(self.tab[i, :]))
+#
+#         for i in range(self.count_row):
+#             list_of_min_in_column.append(self.my_min(self.tab[:, i]))
+#
+#         max_row = max(list_of_min_in_row)
+#         max_column = max(list_of_min_in_column)
+#         my_max = max(max_row,max_column)
+#
+#         k = 0
+#         if max_row == my_max:
+#             index_row = list_of_min_in_row.index(my_max)
+#             print("\nIndeks w wierszu: ", index_row)
+#             k = 1
+#         else:
+#             index_column = list_of_min_in_column.index(my_max)
+#             print("\nIndeks w kolumnie: ", index_column)
+#             k = 2
+#
+#         print("\nMax: ", my_max)
+#         print("\nLista nowych minimów\nWiersze: ", list_of_min_in_row, "\nKolumny: ",list_of_min_in_column)
 
-        list_of_min_in_row = []
-        list_of_min_in_column = []
+    def find_max_and_cut(self):
 
 
+        max = 0
+        tmpi = 0
+        tmpj = 0
         for i in range(self.count_row):
-            list_of_min_in_row.append(self.my_min(self.tab[i, :]))
+            for j in range(self.count_row):
+                if self.tab[i][j] > max:
+                    max = self.tab[i][j]
+                    tmpi = i
+                    tmpj = j
 
-        for i in range(self.count_row):
-            list_of_min_in_column.append(self.my_min(self.tab[:, i]))
-
-        max_row = max(list_of_min_in_row)
-        max_column = max(list_of_min_in_column)
-        my_max = max(max_row,max_column)
-
-        k = 0
-        if max_row == my_max:
-            index_row = list_of_min_in_row.index(my_max)
-            print("\nIndeks w wierszu: ", index_row)
-            k = 1
-        else:
-            index_column = list_of_min_in_column.index(my_max)
-            print("\nIndeks w kolumnie: ", index_column)
-            k = 2
-
-        print("\nMax: ", my_max)
-        print("\nLista nowych minimów\nWiersze: ", list_of_min_in_row, "\nKolumny: ",list_of_min_in_column)
-
-
-
-
-
+        print("Maksymalnyelement: ", max, "o indeksach:<", tmpi, ",", tmpj, ">")
 
     def display(self):
         print(self.tab)
