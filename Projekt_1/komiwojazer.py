@@ -1,5 +1,5 @@
 import macierz
-
+from collections import namedtuple
 
 
 #
@@ -23,11 +23,12 @@ class Komiwojazer:
 
 
     def __init__(self , tab):
+        self.my_struct = namedtuple("my_struct",['value','x','y'])
         self.tab = tab
         self.count_row = len(self.tab[:, 1])
-        self.list_of_min_in_row = []
+        self.list_of_min_in_row = [self.my_struct]
         self.value_of_low_band = 0
-        self.list_of_min_in_colum = []
+        self.list_of_min_in_colum = [self.my_struct]
 
     # Przy obliczaniu low band dla macierzy antysymetrycznej trzeba uwzględnić jeszcze pioneowe minima wg pkt b
     def low_bound(self):
@@ -40,31 +41,47 @@ class Komiwojazer:
 
         #Przeszukanie wierszy w celu szukania minimum oraz odfiltrowanie 0
         for i in range(self.count_row):
-            self.list_of_min_in_row.append(min(filter(lambda x:x>0 ,self.tab[i, :])))
+            a = (min(filter(lambda x: x > 0, self.tab[i, :])))
+            tmp_array = self.tab[i, :].tolist()
+            id = tmp_array.index(a)
+            p = self.my_struct(a, i,id)
+            self.list_of_min_in_row.append(p)
+
+
 
         #odejmowanie w wierszach
         for i in range(self.count_row):
             for j in range(self.count_row):
                 if self.tab[i][j] > 0:
-                    self.tab[i][j] = self.tab[i][j] - self.list_of_min_in_row[i]
+                    self.tab[i][j] = self.tab[i][j] - self.list_of_min_in_row[i][0]
+            #print(self.list_of_min_in_row[i][0])
+
+
 
         # Przeszukanie kolumn w celu szukania minimum oraz odfiltrowanie 0
         for i in range(self.count_row):
-            self.list_of_min_in_colum.append(min(filter(lambda x: x >= 0, self.tab[:, i])))
+            a = (min(filter(lambda x: x >= 0, self.tab[:, i])))
+            tmp_array = self.tab[:, i].tolist()
+            id = tmp_array.index(a)
+            p = self.my_struct(a, i, id)
+            self.list_of_min_in_colum.append(p)
 
-        self.value_of_low_band = sum(self.list_of_min_in_row) + sum(self.list_of_min_in_colum)
-
-        print("\nLista min w wierszu: ", self.list_of_min_in_row, "\nLista w kolumnach: ",self.list_of_min_in_colum,
-              "\nSuma: ", self.value_of_low_band)
 
 
         # odejmowanie w kolumnach
         for i in range(self.count_row):
             for j in range(self.count_row):
                 if self.tab[j][i] > 0:
-                    self.tab[j][i] = self.tab[j][i] - self.list_of_min_in_colum[i]
+                    self.tab[j][i] = self.tab[j][i] - self.list_of_min_in_colum[i][0]
+
+        # Sumowanie wartosci ograniczenia
+        #self.value_of_low_band = sum(self.list_of_min_in_row[:][0]) + sum(self.list_of_min_in_colum[:][0])
+
+        for i in range(self.count_row):
+            self.value_of_low_band += self.list_of_min_in_row[i][0] + self.list_of_min_in_colum[i][0]
 
 
+        print(self.value_of_low_band)
         return self.value_of_low_band
 
 
@@ -124,20 +141,20 @@ class Komiwojazer:
 #         print("\nMax: ", my_max)
 #         print("\nLista nowych minimów\nWiersze: ", list_of_min_in_row, "\nKolumny: ",list_of_min_in_column)
 
-    def find_max_and_cut(self):
-
-
-        max = 0
-        tmpi = 0
-        tmpj = 0
-        for i in range(self.count_row):
-            for j in range(self.count_row):
-                if self.tab[i][j] > max:
-                    max = self.tab[i][j]
-                    tmpi = i
-                    tmpj = j
-
-        print("Maksymalnyelement: ", max, "o indeksach:<", tmpi, ",", tmpj, ">")
+    # def find_max_and_cut(self):
+    #
+    #
+    #     max = 0
+    #     tmpi = 0
+    #     tmpj = 0
+    #     for i in range(self.count_row):
+    #         for j in range(self.count_row):
+    #             if self.tab[i][j] > max:
+    #                 max = self.tab[i][j]
+    #                 tmpi = i
+    #                 tmpj = j
+    #
+    #     print("Maksymalnyelement: ", max, "o indeksach:<", tmpi, ",", tmpj, ">")
 
     def display(self):
         print(self.tab)
