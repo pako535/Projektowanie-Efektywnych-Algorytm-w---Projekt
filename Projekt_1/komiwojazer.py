@@ -32,7 +32,7 @@ class Komiwojazer:
         if self.list_of_min_in_colum :
             del self.list_of_min_in_colum[ : ]
 
-        #Przeszukanie wierszy w celu szukania minimum oraz odfiltrowanie 0
+        #Przeszukanie wierszy w celu szukania minimum### oraz odfiltrowanie 0
         for i in range(self.count_row):
             try:
                 a = (min(filter(lambda x: x >= 0, self.tab[i, :])))
@@ -60,7 +60,7 @@ class Komiwojazer:
             a = (min(filter(lambda x: x >= 0, self.tab[:, i])))
             tmp_array = self.tab[:, i].tolist()
             id = tmp_array.index(a)
-            p = self.my_struct(a, id, i)
+            p = self.my_struct(a, i, id)
             self.list_of_min_in_colum.append(p)
 
 
@@ -161,8 +161,18 @@ class Komiwojazer:
         self.display_list(self.list_of_min_in_colum)
         print("\nMaksymalny element: ", tmp_max, "o indeksach:<", tmp_x, ",", tmp_y, ">")
 
-    def display(self):
-        print(self.tab)
+    def display(self, tab):
+        a =  28 #len(tab)
+        x = int(a/27)
+        r = a%27
+
+        print (int(r))
+        for i in range(a):
+            if a > 27:
+                for j in range(27*x + r):
+                    print(chr(65 + i))
+            else:
+                print(chr(65 + i))
 
     def display_list(self,list):
         print('\n')
