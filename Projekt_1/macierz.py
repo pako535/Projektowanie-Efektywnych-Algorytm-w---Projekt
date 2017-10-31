@@ -3,7 +3,7 @@ import linecache
 import sys
 import math
 
-def creatematrix():
+def creatematrix_TSP():
 
 
 
@@ -35,7 +35,7 @@ def creatematrix():
             if tekst[counter] == '0':
                 tekst[counter] = infinity
             tab[i][j] = int(tekst[counter])
-            tab[j][i] = int(tekst[counter])
+            tab[j][i] = -1 #int(tekst[counter])
             counter += 1
             j += 1
             k = True
@@ -45,6 +45,41 @@ def creatematrix():
         if k == False:
              counter += 1
     #print(tab)
+    return tab
+
+
+def creatematrix_ATSP():
+    file = 'my.atsp'
+    tekst = open(file).read()
+
+    #print(tekst)
+    tekst = tekst.split()
+    #print(tekst)
+    tekst = tekst[15:]
+    #print(tekst)
+
+    dl = len(tekst)
+
+    dimension = linecache.getline(file, 4)
+    dimension = dimension[11:]
+    dimension = int(dimension)
+
+    tab = zeros((dimension, dimension), int)
+    # print(tab)
+
+    # wpisywanie do macierzy odległosci jako int a nie str
+    counter = 0
+
+    infinity = -1
+
+    for i in range(dimension):
+        for j in range(dimension):
+            if tekst[counter] == '100000000':
+                tekst[counter] = infinity
+            tab[i][j] = int(tekst[counter])
+            counter += 1
+
+    # print(tab)
     return tab
 
 
