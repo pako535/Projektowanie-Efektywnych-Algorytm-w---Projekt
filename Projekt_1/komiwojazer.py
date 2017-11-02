@@ -1,6 +1,7 @@
 import macierz
 from collections import namedtuple
 from numpy import*
+import copy
 
 #   Brak usuwania odpowiednich kolumn i wierszy
 #
@@ -147,27 +148,23 @@ class Komiwojazer:
         k = len(self.list_of_branch)
         print(len(self.list_of_branch))
 
+
         # Dodanie elementu dla prawego potomka
-        tmp_tab = tab
+        tmp_tab = copy.copy(tab)
         tmp_tab[tmp_y,tmp_x] = -1
-        # print(tmp_tab)
-        #self.list_of_branch[2*k + 1] = tmp_tab
+
         self.list_of_branch[2] = tmp_tab
-        del tmp_tab
-        #print(self.list_of_branch)
+
 
         # Dodanie elementu dla lewego potomka
         #self.list_of_branch[2*k] = None
 
-        tmp_tab = zeros((len(tab) - 1, len(tab) - 1), int)
 
-        for i in range(len(tab)):
-            for j in range(len(tab)):
-                if i == tmp_y or j == tmp_x:
-                    pass
-                else:
-                    tmp_tab[i][j] = tab[i][j]
+        tmp_tab = copy.copy(tab)
+        tmp_tab = tmp_tab.tolist()
+        tmp_tab = tmp_tab.remove(tmp_y)
 
+        print(tab)
         print("asda\n",tmp_tab)
         self.list_of_branch[1] = None
 
