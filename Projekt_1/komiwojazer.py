@@ -162,10 +162,10 @@ class Komiwojazer:
 
         tmp_tab = copy.copy(tab)
         tmp_tab = tmp_tab.tolist()
-        tmp_tab = tmp_tab.remove(tmp_y)
+
 
         print(tab)
-        print("asda\n",tmp_tab)
+        print("asda\n",tmp_tab[tmp_y])
         self.list_of_branch[1] = None
 
 
