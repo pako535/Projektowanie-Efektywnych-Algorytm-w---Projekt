@@ -71,9 +71,10 @@ class Komiwojazer:
         tmp_tab = self.sub_min_in_column(tmp_tab, count_row, list_of_min_in_column)
 
         # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_in_min(tmp_tab, list_of_min_in_row, list_of_min_in_column)
+        tuple_max_in_min = self.find_max_opty(tmp_tab)
 
         value_of_low_band = self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+
 
         element = self.element(tmp_tab,value_of_low_band,tuple_max_in_min[1], tuple_max_in_min[2],0)
 
@@ -85,26 +86,25 @@ class Komiwojazer:
 
         tmp_tab = copy.copy(tab)
 
-        #print(value_of_low_band)
 
         # 0 - lewe dziecko wycięte , 1 - prawe zaznaczone
         children = self.add_children_and_cut(tmp_tab, x, y, indeks)
 
-        print("LEWE DZIECKO: ",children[0])
+        # print("LEWE DZIECKO: ",children[0])
         #   LEWY
         # coś tu nie gra
         tmp_tab = copy.copy(children[0])
-
+        #0 - value, 1 - x, 2 - y
         list_of_min_in_row = self.find_min_in_row(tmp_tab,len(children[0]))
         tmp_tab = self.sub_min_in_row(tmp_tab, len(children[0]), list_of_min_in_row)            # odjęcie wierszy
 
         list_of_min_in_column = self.find_min_in_column(tmp_tab,len(children[0]))
         tmp_tab = self.sub_min_in_column(tmp_tab,len(children[0]),list_of_min_in_column)        # odjęcie kolumn
-        print ("ROW: ",list_of_min_in_row,"\nCOLUMN: ",list_of_min_in_column)
+        #print ("ROW: ",list_of_min_in_row,"\nCOLUMN: ",list_of_min_in_column)
         value_of_low_band += self.low_bound(list_of_min_in_row,list_of_min_in_column,len(children[0]))       #trzeba dodać do poprzedniej
 
         # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_in_min(tmp_tab,list_of_min_in_row,list_of_min_in_column)
+        tuple_max_in_min =  self.find_max_opty(tmp_tab)
         self.indeks += 1
 
         left = self.element(children[0], value_of_low_band, tuple_max_in_min[1], tuple_max_in_min[2], self.indeks)
@@ -123,7 +123,7 @@ class Komiwojazer:
         value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column,len(children[1]))  # trzeba dodać do poprzedniej
 
         # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_in_min(tmp_tab, list_of_min_in_row, list_of_min_in_column)
+        tuple_max_in_min = self.find_max_opty(tmp_tab)
         self.indeks += 1
 
         right = self.element(children[1], value_of_low_band, tuple_max_in_min[1], tuple_max_in_min[2], self.indeks)
@@ -223,8 +223,28 @@ class Komiwojazer:
         # print("\nNajmniejszy element w kolumnie ", tmp_x, " wynosi: ", cost_x, "\nNajmniejszy element w wierszu ",
         #       tmp_y, " wynosi: ", cost_y)
 
-        return tmp_max,tmp_x,tmp_y
+        return tmp_max, tmp_x, tmp_y
 
+
+
+    def find_max_opty(self, tab):
+
+        Opt_cost_for_evry_zero = []
+
+        for i in range(len(tab)):
+           for j in range(len(tab)):
+               if tab [i][j] == 0:
+                   #vr = (min(filter(lambda x: x >= 0, tab[:, [i]])) + (min(filter(lambda x: x >= 0, tab[j, :]))))#[i,;]
+                   vr = self.min_without(tab[:, j],i) + self.min_without(tab[i, :],j)
+                   er = self.my_struct(vr,j,i)
+                   Opt_cost_for_evry_zero.append(er)
+
+        maxi = max(Opt_cost_for_evry_zero)
+
+
+        print("\nROW: ",Opt_cost_for_evry_zero,"\nMaxi: ",maxi)
+        # 0 - value, 1 - x, 2 - y
+        return  maxi[0], maxi[1], maxi[2]
     def add_children_and_cut(self,tab,tmp_x, tmp_y,indeks):
 
         # Powiększenie tablicy jeśli kolejne dziecko będzie poza zakresem tablicy
@@ -274,6 +294,25 @@ class Komiwojazer:
 
         return tmp_tab_left , tmp_tab_right
 
+
+    def min_without(self, tab, without):
+        min = max(tab)
+
+        flag = False
+        for i in range(len(tab)):
+            if tab[i] < min and i != without and tab[i] >= 0:
+                min = tab[i]
+
+            # if i > 0 and min > i:
+            #     min = i
+            # if flag == True and min > i and i >= 0:
+            #     min = i
+            # if i == 0:
+            #    flag = True
+
+        # print("\nMoje minimum: ", min)
+        return min
+
     def display(self, tab):
         print('\n',tab)
 
@@ -295,24 +334,26 @@ class Komiwojazer:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            # def my_min(self, tab):
+            #
+            #     # if tab[0] < 0:
+            #     #     min = tab[1]
+            #     # else:
+            #     #     min = tab[0]
+            #
+            #     min = max(tab)
+            #
+            #     flag = False
+            #     for i in tab:
+            #         if i > 0 and min > i:
+            #             min = i
+            #         if flag == True and min > i and i >= 0:
+            #             min = i
+            #         if i == 0:
+            #             flag = True
+            #
+            #     # print("\nMoje minimum: ", min)
+            #     return min
 
 
 
@@ -321,26 +362,7 @@ class Komiwojazer:
     # funkcja szukająca dodatniego minimum większego od zera, chyba że w danym wierszu lub kolumnie zero występi więcej
     # niż raz
 
-    # def my_min(self, tab):
     #
-    #     # if tab[0] < 0:
-    #     #     min = tab[1]
-    #     # else:
-    #     #     min = tab[0]
-    #
-    #     min = max(tab)
-    #
-    #     flag = False
-    #     for i in tab:
-    #         if i > 0 and min > i:
-    #             min = i
-    #         if flag == True and min > i and i >= 0:
-    #             min = i
-    #         if i == 0:
-    #              flag = True
-    #
-    #     #print("\nMoje minimum: ", min)
-    #     return min
     #
     #
     # def find_min_in_row_and_column(self):
