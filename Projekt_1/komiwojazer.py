@@ -21,46 +21,89 @@ class Komiwojazer:
 
         self.my_struct = namedtuple("my_struct",['value','x','y'])
         self.tab = tab
-        self.element = namedtuple("element", ['tab', 'bound', 'del_x', 'del_y','index'])
+        self.element = namedtuple("element", ['tab', 'lower_bound', 'del_x', 'del_y','index'])
         element = self.add_element(tab)
         self.list_of_branch = [element]
 
 
 
     def my_main(self):
-
-
-        children = self.add_elements(self.list_of_branch[0].tab,self.list_of_branch[0].bound,
-                                     self.list_of_branch[0].del_x,self.list_of_branch[0].del_y,0)
-
-        self.list_of_branch[2*0 + 1] = children [0]
-        self.list_of_branch[2*0 + 2] = children [1]
-
-        # print(*self.list_of_branch, sep='\n\n')
-
-
-
-        children = self.add_elements(self.list_of_branch[2].tab, self.list_of_branch[2].bound,
-                                     self.list_of_branch[2].del_x, self.list_of_branch[2].del_y, 2)
-
-
-        # print(len(self.list_of_branch))
-        self.list_of_branch[2 * 2 + 1] = children[0]
-        self.list_of_branch[2 * 2 + 2] = children[1]
-
-        children = self.add_elements(self.list_of_branch[5].tab, self.list_of_branch[5].bound,
-                                     self.list_of_branch[5].del_x, self.list_of_branch[5].del_y, 5)
-
-        self.list_of_branch[2 * 5 + 1] = children[0]
-        self.list_of_branch[2 * 5 + 2] = children[1]
-
-        # print ("trojka: ",self.list_of_branch[3])
-        # children = self.add_elements(self.list_of_branch[3].tab, self.list_of_branch[3].bound,self.list_of_branch[3].del_x, self.list_of_branch[3].del_y, self.list_of_branch[3].index)
+        i = 0
+        # upper_bound = 0         #Najlepszy wynik dotychczas znaleziony
+        # tmp_tab = self.tab
+        # for i in range(len(tmp_tab)):
+        #     try:
+        #         a = (min(filter(lambda x: x >= 0, tmp_tab[i, :])))
+        #     except ValueError:
+        #         pass
         #
-        # self.list_of_branch[2 *  self.list_of_branch[3].index + 1] = children[0]
-        # self.list_of_branch[2 *  self.list_of_branch[3].index + 2] = children[1]
+        #     upper_bound += a
 
-        # print(*self.list_of_branch, sep='\n\n')
+
+
+        list_of_low_bound = []
+        ABC = namedtuple("ABC",['value','index'])
+        a = ABC(self.list_of_branch[0].lower_bound,0)
+        list_of_low_bound.append(a)
+
+
+
+
+
+
+        while(True):
+            children = self.add_elements(self.list_of_branch[i].tab,self.list_of_branch[i].lower_bound,
+                                     self.list_of_branch[i].del_x,self.list_of_branch[i].del_y,i)
+
+
+            if children[0] == True:
+                self.list_of_branch[2 * i + 2] = children[1]
+            elif children[1] == True:
+                self.list_of_branch[2 * i + 1] = children[0]
+            elif children[0] != True and children[1] != True:
+                self.list_of_branch[2*i + 1] = children [0]
+                self.list_of_branch[2*i + 2] = children [1]
+            try:
+                a = ABC(children[0].lower_bound, children[0].index)
+                list_of_low_bound.append(a)
+            except:
+                pass
+
+
+
+            try:
+                a = ABC(children[1].lower_bound, children[1].index)
+                list_of_low_bound.append(a)
+            except:
+                pass
+
+            for j in range(len(list_of_low_bound)):
+                if list_of_low_bound[j][1] == i:
+                    tmp_j = j
+            list_of_low_bound.remove(list_of_low_bound[tmp_j])
+
+            min = list_of_low_bound[0][0]
+            for j in range(len(list_of_low_bound)):
+                if list_of_low_bound[j][0] < min:
+                    min = list_of_low_bound[j][0]
+                    tmp_j = j
+
+            i = list_of_low_bound[tmp_j][1]
+            try:
+                len_child_0 = len(children[0].tab)
+            except:
+                len_child_0 = 2
+            try:
+                len1_child_1 = len(children[1].tab)
+            except:
+                len1_child_1 = 2
+
+            # print(i, " -element\n", self.list_of_branch[i], "\n")
+
+            if len_child_0 == 1 or len1_child_1 == 1:
+                break
+
+
 
         for i in range(len(self.list_of_branch)):
             print(i," -element\n",self.list_of_branch[i],"\n")
@@ -241,13 +284,12 @@ class Komiwojazer:
         # 0 - value, 1 - x, 2 - y
         return  maxi[0], maxi[1], maxi[2]
 
-
     def add_children_and_cut(self,tab,tmp_x, tmp_y,indeks):
 
         # Powiększenie tablicy jeśli kolejne dziecko będzie poza zakresem tablicy
         #print(len(self.list_of_branch))
         k = indeks
-        tmp_k = indeks
+        tmp_k = len(self.list_of_branch) -1
         if k == 0:
             self.list_of_branch.append(None)
             self.list_of_branch.append(None)
@@ -299,7 +341,6 @@ class Komiwojazer:
 
         return tmp_tab_left , tmp_tab_right
 
-
     def min_without(self, tab, without):
         min = max(tab)
 
@@ -312,8 +353,6 @@ class Komiwojazer:
             return "False"
         else:
             return min
-
-
 
     def display(self, tab):
         print('\n',tab)
