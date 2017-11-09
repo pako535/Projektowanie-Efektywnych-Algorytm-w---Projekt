@@ -49,13 +49,13 @@ def creatematrix_TSP():
 
 
 def creatematrix_ATSP():
-    file = 'my.atsp'
+    file = 'br17.atsp'
     tekst = open(file).read()
 
     #print(tekst)
     tekst = tekst.split()
     #print(tekst)
-    tekst = tekst[15:]
+    tekst = tekst[16:]
     #print(tekst)
 
     dl = len(tekst)
@@ -82,7 +82,7 @@ def creatematrix_ATSP():
     for i in range(dimension):
         tab[0, 1+i:] = i
         tab[1+i :,0] = i
-    print(tab)
+    #print(tab)
 
 
 

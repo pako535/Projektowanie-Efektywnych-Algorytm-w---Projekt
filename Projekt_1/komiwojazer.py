@@ -25,7 +25,7 @@ class Komiwojazer:
         element = self.add_element(tab)
         self.list_of_branch = [element]
 
-
+       # print(element)
 
     def my_main(self):
         i = 0
@@ -90,23 +90,24 @@ class Komiwojazer:
 
             i = list_of_low_bound[tmp_j][1]
             try:
-                len_child_0 = len(children[0].tab)
+                len_child_0 = len(children[0].tab) -1
             except:
                 len_child_0 = 2
             try:
-                len1_child_1 = len(children[1].tab)
+                len1_child_1 = len(children[1].tab) -1
             except:
                 len1_child_1 = 2
 
             # print(i, " -element\n", self.list_of_branch[i], "\n")
 
-            if len_child_0 == 2 or len1_child_1 == 2:
+            if len_child_0 == 1 or len1_child_1 == 1:
                 break
 
 
 
         for i in range(len(self.list_of_branch)):
-            print(i," -element\n",self.list_of_branch[i],"\n")
+            if self.list_of_branch[i] != None:
+                print(i," -element\n",self.list_of_branch[i],"\n")
 
     def add_element(self,tab):
         #my_struct = namedtuple("my_struct", ['value', 'x', 'y'])
@@ -271,12 +272,16 @@ class Komiwojazer:
                    a = self.min_without(tab[1:, j + 1],i)
                    b = self.min_without(tab[i + 1, 1:],j)
                    if a == "False" or b == "False":
+                       x = tab[0][j + 1]
+                       y = tab[i + 1][0]
                        vr = max(max(tab[1:,j + 1]),max(tab[i + 1,1:])) + 5  # kolumna potem wiersz
-                       er = self.my_struct(vr, j + 1, i + 1)
+                       er = self.my_struct(vr, x,y)
                        Opt_cost_for_evry_zero.append(er)
                    else:
                        vr = a + b   # kolumna potem wiersz
-                       er = self.my_struct(vr,j + 1,i + 1)
+                       x = tab[0][j+  1]
+                       y = tab[i + 1][0]
+                       er = self.my_struct(vr,x,y)
                        Opt_cost_for_evry_zero.append(er)
 
         maxi = max(Opt_cost_for_evry_zero)
@@ -289,9 +294,12 @@ class Komiwojazer:
 
     def add_children_and_cut(self,tab,tmp_x, tmp_y,indeks):
 
+        tmp_xx = tab[0, 1:].tolist()
+        px = tmp_xx.index(tmp_x) + 1
+        tmp_yy = tab[1: , 0].tolist()
+        py = tmp_yy.index(tmp_y) + 1
 
-        tmp_xx = tab[tmp_x][0]
-        tmp_yy = tab[0][tmp_y]
+
         # Powiększenie tablicy jeśli kolejne dziecko będzie poza zakresem tablicy
         #print(len(self.list_of_branch))
         k = indeks
@@ -306,23 +314,13 @@ class Komiwojazer:
                     tmp_k += 1
 
 
-        flag = False
-        px = tab[1:][0].tolist()
-        # px = px[1:]
-        try:
-            px = px.index(tmp_xx) + 1
-        except:
-            flag = True
-        py = tab[0][1:].tolist()
-        try:
-            py = py.index(tmp_yy) + 1
-        except:
-            flag = True
+
+
         # Dodanie elementu dla prawego potomka
         # self.list_of_branch[2*k +2] = tmp_tab
         tmp_tab_right = copy.copy(tab)
-        if flag != True:
-            tmp_tab_right[py,px] = -1
+
+        tmp_tab_right[py,px] = -1
 
 
 
@@ -334,9 +332,19 @@ class Komiwojazer:
         tmp_tab_left = zeros((len(tab) -1,len(tab)-1),int)
         # print(tmp_tab)
         j = 0
-        if flag != True:
-            tmp_value = tab[px, py]
-            tab[px, py] = -1
+
+        tmp_xx = tab[0, 1:].tolist()
+        try:
+            pxx = tmp_xx.index(tmp_y) + 1
+            tmp_yy = tab[1:, 0].tolist()
+            try:
+                pyy = tmp_yy.index(tmp_x) + 1
+                tmp_value = tab[pyy, pxx]
+                tab[pyy, pxx] = -1
+            except:
+                pass
+        except:
+            pass
 
         for i  in range(len(tab)):
             c = 0
@@ -354,8 +362,8 @@ class Komiwojazer:
                 j -= 1
             j += 1
         # to jest głupie ale działa ... póki co
-        if tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] == -1 and flag != True:
-            tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] = tmp_value
+        # if tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] == -1 :
+        #     tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] = tmp_value
 
         return tmp_tab_left , tmp_tab_right
 
