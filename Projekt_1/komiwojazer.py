@@ -100,7 +100,7 @@ class Komiwojazer:
 
             # print(i, " -element\n", self.list_of_branch[i], "\n")
 
-            if len_child_0 == 1 or len1_child_1 == 1:
+            if len_child_0 == 2 or len1_child_1 == 2:
                 break
 
 
@@ -110,7 +110,7 @@ class Komiwojazer:
 
     def add_element(self,tab):
         #my_struct = namedtuple("my_struct", ['value', 'x', 'y'])
-        count_row = len(tab[:, 1])
+        count_row = len(tab[:, 1]) - 1
 
         tmp_tab = copy.copy(tab)
         list_of_min_in_row = self.find_min_in_row(tmp_tab, count_row)
@@ -143,15 +143,15 @@ class Komiwojazer:
         # coś tu nie gra
         tmp_tab = copy.copy(children[0])
         #0 - value, 1 - x, 2 - y
-        list_of_min_in_row = self.find_min_in_row(tmp_tab,len(children[0]))
+        list_of_min_in_row = self.find_min_in_row(tmp_tab,len(children[0]) - 1)
         if list_of_min_in_row != True:
-            tmp_tab = self.sub_min_in_row(tmp_tab, len(children[0]), list_of_min_in_row)            # odjęcie wierszy
+            tmp_tab = self.sub_min_in_row(tmp_tab, len(children[0]) - 1, list_of_min_in_row)            # odjęcie wierszy
 
-            list_of_min_in_column = self.find_min_in_column(tmp_tab,len(children[0]))
+            list_of_min_in_column = self.find_min_in_column(tmp_tab,len(children[0]) - 1)
             if list_of_min_in_column != True:
-                tmp_tab = self.sub_min_in_column(tmp_tab,len(children[0]),list_of_min_in_column)        # odjęcie kolumn
+                tmp_tab = self.sub_min_in_column(tmp_tab,len(children[0]) - 1,list_of_min_in_column)        # odjęcie kolumn
 
-                value_of_low_band1 = self.low_bound(list_of_min_in_row,list_of_min_in_column,len(children[0])) + value_of_low_band     #trzeba dodać do poprzedniej
+                value_of_low_band1 = self.low_bound(list_of_min_in_row,list_of_min_in_column,len(children[0]) - 1) + value_of_low_band     #trzeba dodać do poprzedniej
 
                 # 0 - value, 1 - x ,2 - y
                 tuple_max_in_min =  self.find_max_opty(tmp_tab)
@@ -167,15 +167,15 @@ class Komiwojazer:
         #   PRAWY
         tmp_tab = copy.copy(children[1])
 
-        list_of_min_in_row = self.find_min_in_row(tmp_tab, len(children[1]))
+        list_of_min_in_row = self.find_min_in_row(tmp_tab, len(children[1]) - 1)
         if list_of_min_in_row != True:
-            tmp_tab = self.sub_min_in_row(tmp_tab, len(children[1]), list_of_min_in_row)  # odjęcie wierszy
+            tmp_tab = self.sub_min_in_row(tmp_tab, len(children[1]) - 1, list_of_min_in_row)  # odjęcie wierszy
 
-            list_of_min_in_column = self.find_min_in_column(tmp_tab, len(children[1]))
+            list_of_min_in_column = self.find_min_in_column(tmp_tab, len(children[1]) - 1)
             if list_of_min_in_column != True:
-                tmp_tab = self.sub_min_in_column(tmp_tab, len(children[1]), list_of_min_in_column)  # odjęcie kolumn
+                tmp_tab = self.sub_min_in_column(tmp_tab, len(children[1]) - 1, list_of_min_in_column)  # odjęcie kolumn
 
-                value_of_low_band2 = self.low_bound(list_of_min_in_row, list_of_min_in_column,len(children[1]))  + value_of_low_band # trzeba dodać do poprzedniej
+                value_of_low_band2 = self.low_bound(list_of_min_in_row, list_of_min_in_column,len(children[1]) - 1)  + value_of_low_band # trzeba dodać do poprzedniej
 
                 # 0 - value, 1 - x ,2 - y
                 tuple_max_in_min = self.find_max_opty(tmp_tab)
@@ -199,15 +199,16 @@ class Komiwojazer:
         list_of_min_in_row = []
         # Przeszukanie wierszy w celu szukania minimum### oraz odfiltrowanie 0
         flag = False
-        for i in range(count_row - 1):
+        for i in range(count_row ):
             try:
-                a = (min(filter(lambda x: x >= 0, tab[i + 1, :])))
+                a = (min(filter(lambda x: x >= 0, tab[i + 1, 1:])))
             except ValueError:
                 flag = True
             if flag == False:
-                tmp_array = tab[i + 1, :].tolist()
-                id = tmp_array.index(a)
-                p = self.my_struct(a, id, i)
+                tmp_array = tab[i + 1, 1:].tolist()
+                id = tab[0][tmp_array.index(a)]
+                y = tab[i][0]
+                p = self.my_struct(a, id, y)
                 list_of_min_in_row.append(p)
             else:
                 return True
@@ -217,8 +218,9 @@ class Komiwojazer:
         # odejmowanie w wierszach
         for i in range(count_row):
             for j in range(count_row):
-                if tab[i][j] > 0:
-                    tab[i][j] = tab[i][j] - list_of_min_in_row[i][0]
+                if tab[i + 1][j + 1] > 0:
+
+                    tab[i + 1][j + 1] = tab[i + 1][j + 1] - list_of_min_in_row[i][0]
         return tab
 
     def find_min_in_column(self,tab,count_row):
@@ -227,13 +229,14 @@ class Komiwojazer:
         # Przeszukanie kolumn w celu szukania minimum oraz odfiltrowanie 0
         for i in range(count_row):
             try:
-                a = (min(filter(lambda x: x >= 0, tab[:, i])))
+                a = (min(filter(lambda x: x >= 0, tab[1:, i + 1])))
             except ValueError:
                 flag = True
             if flag == False:
-                tmp_array = tab[:, i].tolist()
-                id = tmp_array.index(a)
-                p = self.my_struct(a, i, id)
+                tmp_array = tab[1:, i + 1].tolist()
+                id = tab[tmp_array.index(a)][0]
+                x = tab[0][i]
+                p = self.my_struct(a, x, id)
                 list_of_min_in_column.append(p)
             else:
                 return True
@@ -243,8 +246,8 @@ class Komiwojazer:
         # odejmowanie w kolumnach
         for i in range(count_row):
             for j in range(count_row):
-                if tab[j][i] > 0:
-                    tab[j][i] = tab[j][i] - list_of_min_in_column[i].value
+                if tab[j + 1][i + 1] > 0:
+                    tab[j + 1 ][i + 1] = tab[j + 1][i + 1] - list_of_min_in_column[i].value
         return tab
 
     # Przy obliczaniu low band dla macierzy antysymetrycznej trzeba uwzględnić jeszcze pioneowe minima wg pkt b
@@ -261,19 +264,19 @@ class Komiwojazer:
 
         Opt_cost_for_evry_zero = []
 
-        for i in range(len(tab)):
-           for j in range(len(tab)):
-               if tab [i][j] == 0:
+        for i in range(len(tab) - 1):
+           for j in range(len(tab) - 1):
+               if tab [i + 1][j + 1] == 0:
                    #vr = (min(filter(lambda x: x >= 0, tab[:, [i]])) + (min(filter(lambda x: x >= 0, tab[j, :]))))#[i,;]
-                   a = self.min_without(tab[:, j],i)
-                   b = self.min_without(tab[i, :],j)
+                   a = self.min_without(tab[1:, j + 1],i)
+                   b = self.min_without(tab[i + 1, 1:],j)
                    if a == "False" or b == "False":
-                       vr = max(max(tab[:,j]),max(tab[i,:])) + 5  # kolumna potem wiersz
-                       er = self.my_struct(vr, j, i)
+                       vr = max(max(tab[1:,j + 1]),max(tab[i + 1,1:])) + 5  # kolumna potem wiersz
+                       er = self.my_struct(vr, j + 1, i + 1)
                        Opt_cost_for_evry_zero.append(er)
                    else:
                        vr = a + b   # kolumna potem wiersz
-                       er = self.my_struct(vr,j,i)
+                       er = self.my_struct(vr,j + 1,i + 1)
                        Opt_cost_for_evry_zero.append(er)
 
         maxi = max(Opt_cost_for_evry_zero)
@@ -286,6 +289,9 @@ class Komiwojazer:
 
     def add_children_and_cut(self,tab,tmp_x, tmp_y,indeks):
 
+
+        tmp_xx = tab[tmp_x][0]
+        tmp_yy = tab[0][tmp_y]
         # Powiększenie tablicy jeśli kolejne dziecko będzie poza zakresem tablicy
         #print(len(self.list_of_branch))
         k = indeks
@@ -300,12 +306,23 @@ class Komiwojazer:
                     tmp_k += 1
 
 
-
-
+        flag = False
+        px = tab[1:][0].tolist()
+        # px = px[1:]
+        try:
+            px = px.index(tmp_xx) + 1
+        except:
+            flag = True
+        py = tab[0][1:].tolist()
+        try:
+            py = py.index(tmp_yy) + 1
+        except:
+            flag = True
         # Dodanie elementu dla prawego potomka
         # self.list_of_branch[2*k +2] = tmp_tab
         tmp_tab_right = copy.copy(tab)
-        tmp_tab_right[tmp_y,tmp_x] = -1
+        if flag != True:
+            tmp_tab_right[py,px] = -1
 
 
 
@@ -317,26 +334,27 @@ class Komiwojazer:
         tmp_tab_left = zeros((len(tab) -1,len(tab)-1),int)
         # print(tmp_tab)
         j = 0
-        tmp_value = tab[tmp_x, tmp_y]
-        tab[tmp_x, tmp_y] = -1
+        if flag != True:
+            tmp_value = tab[px, py]
+            tab[px, py] = -1
 
         for i  in range(len(tab)):
             c = 0
             for z in range(len(tab)):
-                if i != tmp_y :
-                    if z != tmp_x:
+                if i != py :
+                    if z != px:
 
                         tmp_tab_left[j][c] = tab[i][z]
 
-                if z == tmp_x:
+                if z == px:
                     c -= 1
                 c += 1
 
-            if i == tmp_y:
+            if i == py:
                 j -= 1
             j += 1
         # to jest głupie ale działa ... póki co
-        if tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] == -1:
+        if tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] == -1 and flag != True:
             tmp_tab_left[len(tmp_tab_left)-1][len(tmp_tab_left)-1] = tmp_value
 
         return tmp_tab_left , tmp_tab_right

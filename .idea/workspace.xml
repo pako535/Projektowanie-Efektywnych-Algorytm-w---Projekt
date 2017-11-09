@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af7a0fd8-7450-4900-9809-1c39e48cbaab" name="Default" comment="">
+<<<<<<< Updated upstream
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Linki do ciekawych rzeczy.txt" afterPath="$PROJECT_DIR$/Linki do ciekawych rzeczy.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Projekt_1/.idea/dictionaries/pako_.xml" afterPath="$PROJECT_DIR$/Projekt_1/.idea/dictionaries/pako_.xml" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Projekt_1/komiwojazer.py" afterPath="$PROJECT_DIR$/Projekt_1/komiwojazer.py" />
+>>>>>>> Stashed changes
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,18 +20,29 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Projektowanie_Efektywnych_Algorytm_w___Projekt$komiwojazer.coverage" NAME="komiwojazer Coverage Results" MODIFIED="1508327457863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Projekt_1" />
-    <SUITE FILE_PATH="coverage/Projektowanie_Efektywnych_Algorytm_w___Projekt$main.coverage" NAME="main Coverage Results" MODIFIED="1510240093419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Projekt_1" />
+    <SUITE FILE_PATH="coverage/Projektowanie_Efektywnych_Algorytm_w___Projekt$main.coverage" NAME="main Coverage Results" MODIFIED="1510250957838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Projekt_1" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="komiwojazer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Projekt_1/komiwojazer.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="612">
               <caret line="342" column="0" lean-forward="false" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#584#840#0" expanded="false" />
+=======
+            <state relative-caret-position="229">
+              <caret line="353" column="17" lean-forward="false" selection-start-line="353" selection-start-column="17" selection-end-line="353" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#584#840#0" expanded="false" />
+                <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+                <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+                <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
               </folding>
             </state>
           </provider>
@@ -243,6 +258,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -273,6 +294,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -303,6 +330,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -333,6 +366,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -363,6 +402,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -393,6 +438,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -423,6 +474,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -453,6 +510,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -475,6 +538,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -497,6 +566,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -519,6 +594,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -548,6 +629,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -577,6 +664,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -606,6 +699,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -649,6 +748,12 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+<<<<<<< Updated upstream
+=======
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
@@ -720,11 +825,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Projekt_1/komiwojazer.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="612">
           <caret line="342" column="0" lean-forward="false" selection-start-line="342" selection-start-column="0" selection-end-line="342" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
             <element signature="e#584#840#0" expanded="false" />
+=======
+        <state relative-caret-position="229">
+          <caret line="353" column="17" lean-forward="false" selection-start-line="353" selection-start-column="17" selection-end-line="353" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#584#840#0" expanded="false" />
+            <marker date="1510250997176" expanded="false" signature="12235:12530" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12559:12583" ph="..." />
+            <marker date="1510250997176" expanded="false" signature="12617:16348" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
