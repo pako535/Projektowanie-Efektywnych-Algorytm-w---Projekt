@@ -199,13 +199,13 @@ class Komiwojazer:
         list_of_min_in_row = []
         # Przeszukanie wierszy w celu szukania minimum### oraz odfiltrowanie 0
         flag = False
-        for i in range(count_row):
+        for i in range(count_row - 1):
             try:
-                a = (min(filter(lambda x: x >= 0, tab[i, :])))
+                a = (min(filter(lambda x: x >= 0, tab[i + 1, :])))
             except ValueError:
                 flag = True
             if flag == False:
-                tmp_array = tab[i, :].tolist()
+                tmp_array = tab[i + 1, :].tolist()
                 id = tmp_array.index(a)
                 p = self.my_struct(a, id, i)
                 list_of_min_in_row.append(p)

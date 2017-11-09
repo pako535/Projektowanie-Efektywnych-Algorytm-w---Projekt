@@ -49,7 +49,7 @@ def creatematrix_TSP():
 
 
 def creatematrix_ATSP():
-    file = 'my3.atsp'
+    file = 'my.atsp'
     tekst = open(file).read()
 
     #print(tekst)
@@ -64,7 +64,7 @@ def creatematrix_ATSP():
     dimension = dimension[11:]
     dimension = int(dimension)
 
-    tab = zeros((dimension, dimension), int)
+    tab = zeros((dimension + 1 , dimension + 1 ), int)
     # print(tab)
 
     # wpisywanie do macierzy odległosci jako int a nie str
@@ -76,10 +76,16 @@ def creatematrix_ATSP():
         for j in range(dimension):
             if tekst[counter] == '100000000':
                 tekst[counter] = infinity
-            tab[i][j] = int(tekst[counter])
+            tab[i+1][j+1] = int(tekst[counter])
             counter += 1
 
-    # print(tab)
+    for i in range(dimension):
+        tab[0, 1+i:] = i
+        tab[1+i :,0] = i
+    print(tab)
+
+
+
     return tab
 
 
