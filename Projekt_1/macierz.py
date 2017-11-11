@@ -49,13 +49,13 @@ def creatematrix_TSP():
 
 
 def creatematrix_ATSP():
-    file = 'br17.atsp'
+    file = 'my4.atsp'
     tekst = open(file).read()
 
     #print(tekst)
     tekst = tekst.split()
     #print(tekst)
-    tekst = tekst[16:]
+    tekst = tekst[15:]
     #print(tekst)
 
     dl = len(tekst)

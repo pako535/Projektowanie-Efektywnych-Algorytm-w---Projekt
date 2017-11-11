@@ -8,7 +8,7 @@ import komiwojazer
 
 tab = macierz.creatematrix_ATSP()
 komi = komiwojazer.Komiwojazer(tab)
-komi.my_main()
+# komi.my_main()
 #komi.display(tab)
 #komi.low_bound(tab)
 # komi.find_min_in_row_and_column()
