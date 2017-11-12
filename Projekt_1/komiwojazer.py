@@ -1,5 +1,6 @@
 import macierz
 from collections import namedtuple
+from operator import attrgetter
 from numpy import*
 import copy
 
@@ -29,70 +30,66 @@ class Komiwojazer:
         print(element)
 
     def my_main(self):
-        i = 3
+        i = 0
 
-        self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
-        i =2
-        self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
-        i=15
-        self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
-        # min = self.list_of_low_bound[0][0]
-        # for j in range(len(self.list_of_low_bound)):
-        #     if self.list_of_low_bound[j][0] < min:
-        #         min = self.list_of_low_bound[j][0]
-        #         i = self.list_of_low_bound[j][1]
+        # self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        # i =2
+        # self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        # i=15
+        # self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        min = self.list_of_low_bound[0][0]
+        self.list_of_low_bound = sorted(self.list_of_low_bound, key=attrgetter('index'))
+        for j in range(len(self.list_of_low_bound)):
+            if self.list_of_low_bound[j][0] <= min:
+                min = self.list_of_low_bound[j][0]
+                i = self.list_of_low_bound[j][1]
+
+        # upper_bound = 0         #Najlepszy wynik dotychczas znaleziony
+        # tmp_tab = self.tab
+        # for i in range(len(tmp_tab)):
+        #     try:
+        #         a = (min(filter(lambda x: x >= 0, tmp_tab[i, :])))
+        #     except ValueError:
+        #         pass
         #
-        # # upper_bound = 0         #Najlepszy wynik dotychczas znaleziony
-        # # tmp_tab = self.tab
-        # # for i in range(len(tmp_tab)):
-        # #     try:
-        # #         a = (min(filter(lambda x: x >= 0, tmp_tab[i, :])))
-        # #     except ValueError:
-        # #         pass
-        # #
-        # #     upper_bound += a
-        #
-        #
-        #
-        #
-        # # ABC = namedtuple("ABC",['value','index'])
-        # # a = ABC(self.list_of_branch[0].lower_bound,0)
-        # # self.list_of_low_bound.append(a)
-        #
-        #
-        #
-        # #self.add_element(self.list_of_branch[3][0])
-        # while( len(self.list_of_branch[i][0]) != 2):
-        #
-        #     min = self.list_of_low_bound[0][0]
-        #     for j in range(len(self.list_of_low_bound)):
-        #         if self.list_of_low_bound[j][0] <= min:
-        #             if self.list_of_low_bound[j][0] < min:
-        #                 min = self.list_of_low_bound[j][0]
-        #                 i = self.list_of_low_bound[j][1]
-        #             elif self.list_of_low_bound[j][0] == min and i <= self.list_of_low_bound[j][1]:
-        #                 min = self.list_of_low_bound[j][0]
-        #                 i = self.list_of_low_bound[j][1]
-        #
-        #
-        #     for j in range(len(self.list_of_low_bound)):
-        #         if self.list_of_low_bound[j][1] == i:
-        #             tmp_j = j
-        #     self.list_of_low_bound.remove(self.list_of_low_bound[tmp_j])
-        #
-        #     self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
-        #
-        #     #
-        #     # if i == 31:
-        #     #      break
-        #
-        #
-        print(self.list_of_low_bound)
-        for i in range(len(self.list_of_branch)):
+        #     upper_bound += a
+
+
+
+
+        # ABC = namedtuple("ABC",['value','index'])
+        # a = ABC(self.list_of_branch[0].lower_bound,0)
+        # self.list_of_low_bound.append(a)
+
+
+
+        #self.add_element(self.list_of_branch[3][0])
+        while( len(self.list_of_branch[i][0]) != 2):
+
+            tmp_j = 0
+            for j in range(len(self.list_of_low_bound)):
+                if self.list_of_low_bound[j][1] == i:
+                    tmp_j = j
+            self.list_of_low_bound.remove(self.list_of_low_bound[tmp_j])
+
+            self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+
+            self.list_of_low_bound = sorted(self.list_of_low_bound, key=attrgetter('index'))
+            min = self.list_of_low_bound[0][0]
+            for j in range(len(self.list_of_low_bound)):
+                if self.list_of_low_bound[j][0] != None:
+                    if self.list_of_low_bound[j][0] <= min:
+                        # if self.list_of_low_bound[j][0] < min:
+                        min = self.list_of_low_bound[j][0]
+                        i = self.list_of_low_bound[j][1]
+
+        print (i,'\n')
+        # print(self.list_of_low_bound)
+        for q in range(len(self.list_of_branch)):
             # if self.list_of_branch[i] != None:
-            print(i," -element\n",self.list_of_branch[i],"\n")
+            print(q," -element\n",self.list_of_branch[q],"\n")
 
-
+        print("\n\n\n#### WYNIK :", self.list_of_branch[i],'\n')
     def add_element(self,tab):
         #my_struct = namedtuple("my_struct", ['value', 'x', 'y'])
 
@@ -524,8 +521,11 @@ class Komiwojazer:
             tuple_max_in_min = self.find_max_opty(left_child)
 
             #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
+            if tuple_max_in_min[0] != "False":
+                value_of_low_band += tuple_max_in_min[0]
+            else:
+                value_of_low_band1 = None
 
-            value_of_low_band += tuple_max_in_min[0]
 
             tmp_xx = left_child[0, :].tolist()
             # zablokowanie
@@ -552,9 +552,15 @@ class Komiwojazer:
                         self.list_of_branch.append(None)
                         tmp_j += 1
 
-            self.list_of_branch[2 * j + 2] = self.element(left_child, value_of_low_band, None, None, 2 * j + 2)
-            a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
-            self.list_of_low_bound.append(a)
+            # self.list_of_branch[2 * j + 2] = self.element(left_child, value_of_low_band, None, None, 2 * j + 2)
+            # a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
+            # self.list_of_low_bound.append(a)
+
+            if tuple_max_in_min[0] != "False":
+                self.list_of_branch[2 * j + 2] = self.element(tab, value_of_low_band, None, None, 2 * j + 2)
+                #a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
+            else:
+                self.list_of_branch[2 * j + 2] = self.element(tab, value_of_low_band1, None, None, 2 * j + 2)
             ###############################################################################################################
             ###### Powtórzenie korku 3
             ###############################################################################################################
@@ -643,6 +649,8 @@ class Komiwojazer:
 
             if tuple_max_in_min[0] != "False":
                 value_of_low_band += tuple_max_in_min[0]
+            else:
+                value_of_low_band1 = None
 
             tmp_xx = tab[0, :].tolist()
             # zablokowanie
@@ -668,8 +676,12 @@ class Komiwojazer:
                     while tmp_j != 2 * indeks + 2:
                         self.list_of_branch.append(None)
                         tmp_j += 1
+            if tuple_max_in_min[0] != "False":
+                self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2)
+                a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
+            else:
+                self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band1, None, None, 2 * indeks + 2)
 
-            self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2)
             a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
             self.list_of_low_bound.append(a)
             # Dodanie lewego wyciętego
@@ -801,7 +813,23 @@ class Komiwojazer:
                        er = self.my_struct(vr,x,y)
                        Opt_cost_for_evry_zero.append(er)
 
-        maxi = max(Opt_cost_for_evry_zero)
+        flag = False
+        for i in range(len(Opt_cost_for_evry_zero)):
+            if Opt_cost_for_evry_zero[i][0] != "False":
+                flag = True
+
+        if flag == True:
+            maxii = - 2
+            for i in range(len(Opt_cost_for_evry_zero)):
+                if Opt_cost_for_evry_zero[i][0] != "False":
+                    if Opt_cost_for_evry_zero[i][0] > maxii:
+                        maxii = Opt_cost_for_evry_zero[i][0]
+                        maxi = Opt_cost_for_evry_zero[i]
+
+        else:
+            maxi = max(Opt_cost_for_evry_zero)
+
+
 
 
         #print("\nROW: ",Opt_cost_for_evry_zero,"\nMaxi: ",maxi)

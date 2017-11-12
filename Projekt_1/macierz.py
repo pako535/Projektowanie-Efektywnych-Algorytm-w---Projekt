@@ -49,7 +49,7 @@ def creatematrix_TSP():
 
 
 def creatematrix_ATSP():
-    file = 'my4.atsp'
+    file = 'my.atsp'
     tekst = open(file).read()
 
     #print(tekst)
