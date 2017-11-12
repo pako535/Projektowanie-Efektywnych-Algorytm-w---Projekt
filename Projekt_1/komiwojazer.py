@@ -18,7 +18,7 @@ class Komiwojazer:
 
     def __init__(self , tab):
 
-
+        self.ABC = namedtuple("ABC", ['value', 'index'])
         self.my_struct = namedtuple("my_struct",['value','x','y'])
         self.tab = tab
         self.element = namedtuple("element", ['tab', 'lower_bound', 'del_x', 'del_y','index'])
@@ -29,83 +29,65 @@ class Komiwojazer:
         print(element)
 
     def my_main(self):
-        i = 0
-        # upper_bound = 0         #Najlepszy wynik dotychczas znaleziony
-        # tmp_tab = self.tab
-        # for i in range(len(tmp_tab)):
-        #     try:
-        #         a = (min(filter(lambda x: x >= 0, tmp_tab[i, :])))
-        #     except ValueError:
-        #         pass
+        i = 3
+
+        self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        i =2
+        self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        i=15
+        self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        # min = self.list_of_low_bound[0][0]
+        # for j in range(len(self.list_of_low_bound)):
+        #     if self.list_of_low_bound[j][0] < min:
+        #         min = self.list_of_low_bound[j][0]
+        #         i = self.list_of_low_bound[j][1]
         #
-        #     upper_bound += a
-
-
-
-
-        ABC = namedtuple("ABC",['value','index'])
-        a = ABC(self.list_of_branch[0].lower_bound,0)
-        self.list_of_low_bound.append(a)
-
-
-
-
-
-
-        while(True):
-            children = self.add_elements(self.list_of_branch[i].tab,self.list_of_branch[i].lower_bound,
-                                     self.list_of_branch[i].del_x,self.list_of_branch[i].del_y,i)
-
-
-            if children[0] == True:
-                self.list_of_branch[2 * i + 2] = children[1]
-            elif children[1] == True:
-                self.list_of_branch[2 * i + 1] = children[0]
-            elif children[0] != True and children[1] != True:
-                self.list_of_branch[2*i + 1] = children [0]
-                self.list_of_branch[2*i + 2] = children [1]
-            try:
-                a = ABC(children[0].lower_bound, children[0].index)
-                self.list_of_low_bound.append(a)
-            except:
-                pass
-
-
-
-            try:
-                a = ABC(children[1].lower_bound, children[1].index)
-                self.list_of_low_bound.append(a)
-            except:
-                pass
-
-            for j in range(len(self.list_of_low_bound)):
-                if self.list_of_low_bound[j][1] == i:
-                    tmp_j = j
-            self.list_of_low_bound.remove(self.list_of_low_bound[tmp_j])
-
-            min = self.list_of_low_bound[0][0]
-            for j in range(len(self.list_of_low_bound)):
-                if self.list_of_low_bound[j][0] < min:
-                    min = self.list_of_low_bound[j][0]
-                    tmp_j = j
-
-            i = self.list_of_low_bound[tmp_j][1]
-            try:
-                len_child_0 = len(children[0].tab) -1
-            except:
-                len_child_0 = 2
-            try:
-                len1_child_1 = len(children[1].tab) -1
-            except:
-                len1_child_1 = 2
-
-            # print(i, " -element\n", self.list_of_branch[i], "\n")
-
-            if len_child_0 == 1 or len1_child_1 == 1:
-                break
-
-
-
+        # # upper_bound = 0         #Najlepszy wynik dotychczas znaleziony
+        # # tmp_tab = self.tab
+        # # for i in range(len(tmp_tab)):
+        # #     try:
+        # #         a = (min(filter(lambda x: x >= 0, tmp_tab[i, :])))
+        # #     except ValueError:
+        # #         pass
+        # #
+        # #     upper_bound += a
+        #
+        #
+        #
+        #
+        # # ABC = namedtuple("ABC",['value','index'])
+        # # a = ABC(self.list_of_branch[0].lower_bound,0)
+        # # self.list_of_low_bound.append(a)
+        #
+        #
+        #
+        # #self.add_element(self.list_of_branch[3][0])
+        # while( len(self.list_of_branch[i][0]) != 2):
+        #
+        #     min = self.list_of_low_bound[0][0]
+        #     for j in range(len(self.list_of_low_bound)):
+        #         if self.list_of_low_bound[j][0] <= min:
+        #             if self.list_of_low_bound[j][0] < min:
+        #                 min = self.list_of_low_bound[j][0]
+        #                 i = self.list_of_low_bound[j][1]
+        #             elif self.list_of_low_bound[j][0] == min and i <= self.list_of_low_bound[j][1]:
+        #                 min = self.list_of_low_bound[j][0]
+        #                 i = self.list_of_low_bound[j][1]
+        #
+        #
+        #     for j in range(len(self.list_of_low_bound)):
+        #         if self.list_of_low_bound[j][1] == i:
+        #             tmp_j = j
+        #     self.list_of_low_bound.remove(self.list_of_low_bound[tmp_j])
+        #
+        #     self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+        #
+        #     #
+        #     # if i == 31:
+        #     #      break
+        #
+        #
+        print(self.list_of_low_bound)
         for i in range(len(self.list_of_branch)):
             # if self.list_of_branch[i] != None:
             print(i," -element\n",self.list_of_branch[i],"\n")
@@ -113,6 +95,10 @@ class Komiwojazer:
 
     def add_element(self,tab):
         #my_struct = namedtuple("my_struct", ['value', 'x', 'y'])
+
+        ###############################################################################################################
+        # Krok 1
+        ###############################################################################################################
         count_row = len(tab[:, 1]) - 1
 
         tmp_tab = copy.copy(tab)
@@ -121,39 +107,39 @@ class Komiwojazer:
         list_of_min_in_column = self.find_min_in_column(tmp_tab, count_row)
         tmp_tab = self.sub_min_in_column(tmp_tab, count_row, list_of_min_in_column)
 
-        # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_opty(tmp_tab)
-
         value_of_low_band = self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+
+        # Dodanie 0 elementu
         j = len(self.list_of_branch)
-        element = self.element(tab,value_of_low_band,None, None,j)
+        element = self.element(tab, value_of_low_band, None, None, j)
         self.list_of_branch.append(element)
 
         ###############################################################################################################
-        #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
+        # Krok 2
         ###############################################################################################################
 
-        # tmp_xx = tab[0, 1:].tolist()
-        # px = tmp_xx.index(tuple_max_in_min[1]) + 1
-        # tmp_yy = tab[1:, 0].tolist()
-        # py = tmp_yy.index(tuple_max_in_min[2]) + 1
+        # Szukanie max kosztu wyłączenia
+        # 0 - value, 1 - x ,2 - y
+        tuple_max_in_min = self.find_max_opty(tmp_tab)
 
-        tmp_xx = tab[0, 1:].tolist()
+
+        #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
+
+        value_of_low_band += tuple_max_in_min[0]
+
+        tmp_xx = tab[0, :].tolist()
+        # zablokowanie
         try:
-            px = tmp_xx.index(tuple_max_in_min[2]) + 1
-            tmp_yy = tab[1:, 0].tolist()
+            px = tmp_xx.index(tuple_max_in_min[2])
+            tmp_yy = tab[:, 0].tolist()
             try:
-                py = tmp_yy.index(tuple_max_in_min[1]) + 1
+                py = tmp_yy.index(tuple_max_in_min[1])
                 tmp_tab[px, py] = -1
                 #tab[pyy, pxx] = -1
             except:
                 pass
         except:
             pass
-
-
-        value_of_low_band += tuple_max_in_min[0]
-
 
         # powiększenie drzewa
         tmp_j = len(self.list_of_branch) - 1
@@ -168,23 +154,26 @@ class Komiwojazer:
 
         self.list_of_branch[2 * j + 2] = self.element(tmp_tab,value_of_low_band,None, None,2 * j + 2)
 
+        a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
+        self.list_of_low_bound.append(a)
         ###############################################################################################################
-        # Dodanie lewego wyciętego
+        # Krok 3
         ###############################################################################################################
 
-            # Wycięcie i zablokowanie drogi powrotnej
+        # Dodanie lewego wyciętego
+        # Wycięcie i zablokowanie drogi powrotnej
 
         tmp_tab1 = copy.copy(tmp_tab)
         left_child = zeros((len(tab) - 1, len(tab) - 1), int)
         prv_x = tuple_max_in_min[1]
         l = 0
-        tmp_xx = tmp_tab1[0, 1:].tolist()
+        tmp_xx = tmp_tab1[0, :].tolist()
         try:
-            pxx = tmp_xx.index(tuple_max_in_min[1]) + 1
+            pxx = tmp_xx.index(tuple_max_in_min[1])
 
-            tmp_yy = tab[1:, 0].tolist()
+            tmp_yy = tab[:, 0].tolist()
             try:
-                pyy = tmp_yy.index(tuple_max_in_min[2]) + 1
+                pyy = tmp_yy.index(tuple_max_in_min[2])
                 tmp_tab1[pxx,pyy] = -1
             except:
                 pass
@@ -207,6 +196,7 @@ class Komiwojazer:
 
         value_of_low_band -= tuple_max_in_min[0]
 
+        #redukcja wierszy i kolumn
         count_row = len(left_child) - 1
 
         list_of_min_in_row = self.find_min_in_row(left_child, count_row)
@@ -219,126 +209,509 @@ class Komiwojazer:
         value_of_low_band +=  self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
 
         self.list_of_branch[2 * j + 1] = self.element(left_child,value_of_low_band,tuple_max_in_min[1], tuple_max_in_min[2],2 * j + 1)
+
+        ###############################################################################################################
+        # Krok 4
+        ###############################################################################################################
+        ##### Powtórzenie korku 2
+        ###############################################################################################################
+        j = 2 * j + 1
+        # Szukanie max kosztu wyłączenia
         # 0 - value, 1 - x ,2 - y
         tuple_max_in_min = self.find_max_opty(left_child)
 
-        ###############################################################################################################
-        # Dodanie dzieci  lewego wyciętego
-        ###############################################################################################################
+        #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
 
-        children = self.add_elements(self.list_of_branch[2*j + 1][0],self.list_of_branch[2*j + 1][1],tuple_max_in_min[1],tuple_max_in_min[2],  prv_x  ,2*j + 1 )
+        value_of_low_band += tuple_max_in_min[0]
 
-        self.list_of_branch[2*(2*j + 1)+ 1] = children[0]
-        self.list_of_branch[2 * (2 * j + 1) + 2] = children[1]
-        #
-        # left_child = self.element(tmp_tab,value_of_low_band,tuple_max_in_min[1], tuple_max_in_min[2],1)
-        #
-        #
-        #
-        # self.list_of_branch.append(left_child)
-        # self.list_of_branch.append(right_child)
-        #
-        # if self.list_of_branch[1][1] < self.list_of_branch[2][1]:
-        #     j = 1
-        #     self.list_of_low_bound.append(self.list_of_branch[2][1])
-        # else:
-        #     j = 2
-        #     self.list_of_low_bound.append(self.list_of_branch[1][1])
-
-
-        for i in range(len(self.list_of_branch)):
-            # if self.list_of_branch[i] != None:
-            print(i," -element\n",self.list_of_branch[i],"\n")
-        #return element
-
-
-    def add_elements(self, tab,value_of_low_band, x, y,prv_x, indeks):
-
-        tmp_tab = copy.copy(tab)
-
-
-        # 0 - lewe dziecko wycięte , 1 - prawe zaznaczone
-        # children = self.add_children_and_cut(tmp_tab, x, y, indeks)
-        tmp_xx = tab[0, 1:].tolist()
+        tmp_xx = left_child[0, :].tolist()
+        # zablokowanie
         try:
-            yy = tmp_xx.index(y) + 1
-            tmp_yy = tab[1:, 0].tolist()
+            px = tmp_xx.index(tuple_max_in_min[1])
+            tmp_yy = left_child[:, 0].tolist()
             try:
-                prv_x = tmp_yy.index(prv_x) + 1
-
+                py = tmp_yy.index(tuple_max_in_min[2])
+                left_child[px, py] = -1
+                # tab[pyy, pxx] = -1
             except:
                 pass
         except:
             pass
 
-        #   LEWY
+        # powiększenie drzewa
+        tmp_j = len(self.list_of_branch) - 1
+        if j == 0:
+            self.list_of_branch.append(None)
+            self.list_of_branch.append(None)
+        else:
+            if j < 2 * j + 2:
+                while tmp_j != 2 * j + 2:
+                    self.list_of_branch.append(None)
+                    tmp_j += 1
 
-        if tab[prv_x][yy] == 0:
-            a = self.min_without(tab[1:, yy], prv_x)
-            b = self.min_without(tab[prv_x , 1:], yy - 1)
-            if a == "False" or b == "False":
+        self.list_of_branch[2 * j + 2] = self.element(left_child, value_of_low_band, None, None, 2 * j + 2)
+        a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
+        self.list_of_low_bound.append(a)
+        ###############################################################################################################
+        ###### Powtórzenie korku 3
+        ###############################################################################################################
+        # Dodanie lewego wyciętego
+        # Wycięcie i zablokowanie drogi powrotnej
+
+        tmp_tab1 = copy.copy(left_child)
+        left_child_2 = zeros((len(tmp_tab1) - 1, len(tmp_tab1) - 1), int)
+        prv_x = tuple_max_in_min[1]
+        l = 0
+        tmp_xx = tmp_tab1[0, :].tolist()
+        try:
+            pxx = tmp_xx.index(tuple_max_in_min[1])
+
+            tmp_yy = tmp_tab1[:, 0].tolist()
+            try:
+                pyy = tmp_yy.index(tuple_max_in_min[2])
+                tmp_tab1[pxx, pyy] = -1
+            except:
                 pass
+        except:
+            pass
+        for i in range(len(tmp_tab1)):
+            c = 0
+            for z in range(len(tmp_tab1)):
+                if i != pyy:
+                    if z != pxx:
+                        left_child_2[l][c] = tmp_tab1[i][z]
+
+                if z == pxx:
+                    c -= 1
+                c += 1
+
+            if i == pyy:
+                l -= 1
+            l += 1
+
+        value_of_low_band -= tuple_max_in_min[0]
+
+        # Blokowanie m,p
+        blok_x = self.list_of_branch[j][2]
+        blok_y = tuple_max_in_min[2]
+
+        tmp_xx = left_child_2[0, :].tolist()
+        try:
+            blok_y = tmp_xx.index(blok_y)
+
+            tmp_yy = left_child_2[:, 0].tolist()
+            try:
+                blok_x = tmp_yy.index(blok_x)
+            except:
+                pass
+        except:
+            pass
+
+        left_child_2[blok_x][blok_y] = -1
+        # redukcja wierszy i kolumn
+        count_row = len(left_child_2) - 1
+
+        list_of_min_in_row = self.find_min_in_row(left_child_2, count_row)
+        left_child_2 = self.sub_min_in_row(left_child_2, count_row, list_of_min_in_row)
+
+        list_of_min_in_column = self.find_min_in_column(left_child_2, count_row)
+        left_child_2 = self.sub_min_in_column(left_child_2, count_row, list_of_min_in_column)
+
+        value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+
+        self.list_of_branch[2 * j + 1] = self.element(left_child_2, value_of_low_band, tuple_max_in_min[1],
+                                                      tuple_max_in_min[2], 2 * j + 1)
+
+        a = self.ABC(self.list_of_branch[2 * j + 1].lower_bound, 2 * j + 1)
+        self.list_of_low_bound.append(a)
+
+
+
+    # def add_elements(self, tab,value_of_low_band, x, y,prv_x, indeks):
+    #
+    #     tmp_tab = copy.copy(tab)
+    #
+    #
+    #     # 0 - lewe dziecko wycięte , 1 - prawe zaznaczone
+    #     # children = self.add_children_and_cut(tmp_tab, x, y, indeks)
+    #     tmp_xx = tab[0, 1:].tolist()
+    #     try:
+    #         yy = tmp_xx.index(y) + 1
+    #         tmp_yy = tab[1:, 0].tolist()
+    #         try:
+    #             prv_x = tmp_yy.index(prv_x) + 1
+    #
+    #         except:
+    #             pass
+    #     except:
+    #         pass
+    #
+    #     #   LEWY
+    #
+    #     if tab[prv_x][yy] == 0:
+    #         a = self.min_without(tab[1:, yy], prv_x)
+    #         b = self.min_without(tab[prv_x , 1:], yy - 1)
+    #         if a == "False" or b == "False":
+    #             pass
+    #         else:
+    #             value_of_low_band += a + b  # kolumna potem wiersz
+    #
+    #             tmp_tab[prv_x][yy] = - 1
+    #
+    #     children = self.add_children_and_cut(tmp_tab, x, y, indeks)
+    #
+    #
+    #     # tmp_tab = copy.copy(children[0])
+    #     # #0 - value, 1 - x, 2 - y
+    #     # list_of_min_in_row = self.find_min_in_row(tmp_tab,len(children[0]) - 1)
+    #     # if list_of_min_in_row != True:
+    #     #     tmp_tab = self.sub_min_in_row(tmp_tab, len(children[0]) - 1, list_of_min_in_row)            # odjęcie wierszy
+    #     #
+    #     #     list_of_min_in_column = self.find_min_in_column(tmp_tab,len(children[0]) - 1)
+    #     #     if list_of_min_in_column != True:
+    #     #         tmp_tab = self.sub_min_in_column(tmp_tab,len(children[0]) - 1,list_of_min_in_column)        # odjęcie kolumn
+    #     #
+    #     #         value_of_low_band1 = self.low_bound(list_of_min_in_row,list_of_min_in_column,len(children[0]) - 1) + value_of_low_band     #trzeba dodać do poprzedniej
+    #     #
+    #     #         # 0 - value, 1 - x ,2 - y
+    #     #         tuple_max_in_min =  self.find_max_opty(tmp_tab)
+    #
+    #
+    #     left = self.element(children[0], value_of_low_band, None, None,2*indeks+1)
+    #     #     else:
+    #     #         left = True
+    #     # else:
+    #     #     left = True
+    #
+    #
+    #     #   PRAWY
+    #     tmp_tab = copy.copy(children[1])
+    #
+    #     # list_of_min_in_row = self.find_min_in_row(tmp_tab, len(children[1]) - 1)
+    #     # if list_of_min_in_row != True:
+    #     #     tmp_tab = self.sub_min_in_row(tmp_tab, len(children[1]) - 1, list_of_min_in_row)  # odjęcie wierszy
+    #     #
+    #     #     list_of_min_in_column = self.find_min_in_column(tmp_tab, len(children[1]) - 1)
+    #     #     if list_of_min_in_column != True:
+    #     #         tmp_tab = self.sub_min_in_column(tmp_tab, len(children[1]) - 1, list_of_min_in_column)  # odjęcie kolumn
+    #
+    #
+    #
+    #     # value_of_low_band2 = self.low_bound(list_of_min_in_row, list_of_min_in_column,len(children[1]) - 1)  + value_of_low_band # trzeba dodać do poprzedniej
+    #
+    #     # 0 - value, 1 - x ,2 - y
+    #     tuple_max_in_min = self.find_max_opty(tab)
+    #     try:
+    #         value_of_low_band2 = value_of_low_band + tuple_max_in_min[0] - a - b
+    #     except:
+    #         value_of_low_band2 = value_of_low_band + tuple_max_in_min[0]
+    #     right = self.element(tmp_tab, value_of_low_band2, None, None, 2*indeks+2)
+    #
+    #
+    #
+    #
+    #     # print("Dzieci\n",children)
+    #     # print("Lewy\n",left)
+    #     # print("Prawy\n",right)
+    #
+    #     return left , right
+
+    def add_element1(self,tab,value_of_low_band ,indeks):
+        if len(tab) != 3:
+            ###############################################################################################################
+            # Krok 2
+            ###############################################################################################################
+
+            # Szukanie max kosztu wyłączenia
+            # 0 - value, 1 - x ,2 - y
+            tuple_max_in_min = self.find_max_opty(tab)
+
+            #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
+
+            value_of_low_band += tuple_max_in_min[0]
+
+            tmp_xx = tab[0, :].tolist()
+            # zablokowanie
+            try:
+                px = tmp_xx.index(tuple_max_in_min[2])
+                tmp_yy = tab[:, 0].tolist()
+                try:
+                    py = tmp_yy.index(tuple_max_in_min[1])
+                    tab[px, py] = -1
+                    # tab[pyy, pxx] = -1
+                except:
+                    pass
+            except:
+                pass
+
+            # powiększenie drzewa
+            tmp_j = len(self.list_of_branch) - 1
+            if indeks == 0:
+                self.list_of_branch.append(None)
+                self.list_of_branch.append(None)
             else:
-                value_of_low_band += a + b  # kolumna potem wiersz
+                if tmp_j < 2 * indeks + 2:
+                    while tmp_j != 2 * indeks + 2:
+                        self.list_of_branch.append(None)
+                        tmp_j += 1
 
-                tmp_tab[prv_x][yy] = - 1
-
-        children = self.add_children_and_cut(tmp_tab, x, y, indeks)
-
-
-        # tmp_tab = copy.copy(children[0])
-        # #0 - value, 1 - x, 2 - y
-        # list_of_min_in_row = self.find_min_in_row(tmp_tab,len(children[0]) - 1)
-        # if list_of_min_in_row != True:
-        #     tmp_tab = self.sub_min_in_row(tmp_tab, len(children[0]) - 1, list_of_min_in_row)            # odjęcie wierszy
-        #
-        #     list_of_min_in_column = self.find_min_in_column(tmp_tab,len(children[0]) - 1)
-        #     if list_of_min_in_column != True:
-        #         tmp_tab = self.sub_min_in_column(tmp_tab,len(children[0]) - 1,list_of_min_in_column)        # odjęcie kolumn
-        #
-        #         value_of_low_band1 = self.low_bound(list_of_min_in_row,list_of_min_in_column,len(children[0]) - 1) + value_of_low_band     #trzeba dodać do poprzedniej
-        #
-        #         # 0 - value, 1 - x ,2 - y
-        #         tuple_max_in_min =  self.find_max_opty(tmp_tab)
+            self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2)
+            a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
+            self.list_of_low_bound.append(a)
+            ###############################################################################################################
+            # Krok 3
+            ###############################################################################################################
 
 
-        left = self.element(children[0], value_of_low_band, None, None,2*indeks+1)
-        #     else:
-        #         left = True
-        # else:
-        #     left = True
+            # Dodanie lewego wyciętego
+            # Wycięcie i zablokowanie drogi powrotnej
+
+            tmp_tab1 = copy.copy(tab)
+            left_child = zeros((len(tab) - 1, len(tab) - 1), int)
+
+            l = 0
+            tmp_xx = tmp_tab1[0, :].tolist()
+            try:
+                pxx = tmp_xx.index(tuple_max_in_min[1])
+
+                tmp_yy = tmp_tab1[:, 0].tolist()
+                try:
+                    pyy = tmp_yy.index(tuple_max_in_min[2])
+                    tmp_tab1[pxx, pyy] = -1
+                except:
+                    pass
+            except:
+                pass
+            for i in range(len(tmp_tab1)):
+                c = 0
+                for z in range(len(tmp_tab1)):
+                    if i != pyy:
+                        if z != pxx:
+                            left_child[l][c] = tmp_tab1[i][z]
+
+                    if z == pxx:
+                        c -= 1
+                    c += 1
+
+                if i == pyy:
+                    l -= 1
+                l += 1
+
+            value_of_low_band -= tuple_max_in_min[0]
+
+            # redukcja wierszy i kolumn
+            count_row = len(left_child) - 1
+
+            list_of_min_in_row = self.find_min_in_row(left_child, count_row)
+            left_child = self.sub_min_in_row(left_child, count_row, list_of_min_in_row)
+
+            list_of_min_in_column = self.find_min_in_column(left_child, count_row)
+            left_child = self.sub_min_in_column(left_child, count_row, list_of_min_in_column)
+
+            value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+
+            self.list_of_branch[2 * indeks + 1] = self.element(left_child, value_of_low_band, tuple_max_in_min[1],
+                                                          tuple_max_in_min[2], 2 * indeks + 1)
+
+            ###############################################################################################################
+            # Krok 4
+            ###############################################################################################################
+            ##### Powtórzenie korku 2
+            ###############################################################################################################
+            j = 2 * indeks + 1
+            # Szukanie max kosztu wyłączenia
+            # 0 - value, 1 - x ,2 - y
+            tuple_max_in_min = self.find_max_opty(left_child)
+
+            #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
+
+            value_of_low_band += tuple_max_in_min[0]
+
+            tmp_xx = left_child[0, :].tolist()
+            # zablokowanie
+            try:
+                px = tmp_xx.index(tuple_max_in_min[1])
+                tmp_yy = left_child[:, 0].tolist()
+                try:
+                    py = tmp_yy.index(tuple_max_in_min[2])
+                    left_child[py, px] = -1
+                    # tab[pyy, pxx] = -1
+                except:
+                    pass
+            except:
+                pass
+
+            # powiększenie drzewa
+            tmp_j = len(self.list_of_branch) - 1
+            if j == 0:
+                self.list_of_branch.append(None)
+                self.list_of_branch.append(None)
+            else:
+                if tmp_j < 2 * j + 2:
+                    while tmp_j != 2 * j + 2:
+                        self.list_of_branch.append(None)
+                        tmp_j += 1
+
+            self.list_of_branch[2 * j + 2] = self.element(left_child, value_of_low_band, None, None, 2 * j + 2)
+            a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
+            self.list_of_low_bound.append(a)
+            ###############################################################################################################
+            ###### Powtórzenie korku 3
+            ###############################################################################################################
+            # Dodanie lewego wyciętego
+            # Wycięcie i zablokowanie drogi powrotnej
+
+            tmp_tab1 = copy.copy(left_child)
+            left_child_2 = zeros((len(tmp_tab1) - 1, len(tmp_tab1) - 1), int)
+
+            l = 0
+            tmp_xx = tmp_tab1[0, :].tolist()
+            try:
+                pxx = tmp_xx.index(tuple_max_in_min[2])
+
+                tmp_yy = tmp_tab1[:, 0].tolist()
+                try:
+                    pyy = tmp_yy.index(tuple_max_in_min[1])
+                    tmp_tab1[pxx, pyy] = -1
+                except:
+                    pass
+            except:
+                pass
+            for i in range(len(tmp_tab1)):
+                c = 0
+                for z in range(len(tmp_tab1)):
+                    if i != py:
+                        if z != px:
+                            left_child_2[l][c] = tmp_tab1[i][z]
+
+                    if z == px:
+                        c -= 1
+                    c += 1
+
+                if i == py:
+                    l -= 1
+                l += 1
+
+            value_of_low_band -= tuple_max_in_min[0]
+
+            # Blokowanie m,p
+            blok_x = self.list_of_branch[j][2]
+            blok_y = tuple_max_in_min[2]
+
+            tmp_xx = left_child_2[0, :].tolist()
+            try:
+                blok_y = tmp_xx.index(blok_y)
+
+                tmp_yy = left_child_2[:, 0].tolist()
+                try:
+                    blok_x = tmp_yy.index(blok_x)
+                    left_child_2[blok_x][blok_y] = -1
+                except:
+                    pass
+            except:
+                pass
 
 
-        #   PRAWY
-        tmp_tab = copy.copy(children[1])
+            # redukcja wierszy i kolumn
+            count_row = len(left_child_2) - 1
 
-        # list_of_min_in_row = self.find_min_in_row(tmp_tab, len(children[1]) - 1)
-        # if list_of_min_in_row != True:
-        #     tmp_tab = self.sub_min_in_row(tmp_tab, len(children[1]) - 1, list_of_min_in_row)  # odjęcie wierszy
-        #
-        #     list_of_min_in_column = self.find_min_in_column(tmp_tab, len(children[1]) - 1)
-        #     if list_of_min_in_column != True:
-        #         tmp_tab = self.sub_min_in_column(tmp_tab, len(children[1]) - 1, list_of_min_in_column)  # odjęcie kolumn
+            list_of_min_in_row = self.find_min_in_row(left_child_2, count_row)
+            left_child_2 = self.sub_min_in_row(left_child_2, count_row, list_of_min_in_row)
 
+            list_of_min_in_column = self.find_min_in_column(left_child_2, count_row)
+            left_child_2 = self.sub_min_in_column(left_child_2, count_row, list_of_min_in_column)
 
+            value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
 
-        # value_of_low_band2 = self.low_bound(list_of_min_in_row, list_of_min_in_column,len(children[1]) - 1)  + value_of_low_band # trzeba dodać do poprzedniej
+            self.list_of_branch[2 * j + 1] = self.element(left_child_2, value_of_low_band, tuple_max_in_min[1],
+                                                          tuple_max_in_min[2], 2 * j + 1)
 
-        # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_opty(tab)
+            a = self.ABC(self.list_of_branch[2 * j + 1].lower_bound, 2 * j + 1)
+            self.list_of_low_bound.append(a)
 
-        value_of_low_band2 = value_of_low_band + tuple_max_in_min[0] - a - b
+        else:
+        ##############################################################################################################
+        # Krok 5
+        ###############################################################################################################
+        ###### Powtórzenie kroku 2
+        ###############################################################################################################
+            # Szukanie max kosztu wyłączenia
+            # 0 - value, 1 - x ,2 - y
+            tuple_max_in_min = self.find_max_opty(tab)
 
-        right = self.element(tmp_tab, value_of_low_band2, None, None, 2*indeks+2)
+            #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
 
+            if tuple_max_in_min[0] != "False":
+                value_of_low_band += tuple_max_in_min[0]
 
+            tmp_xx = tab[0, :].tolist()
+            # zablokowanie
+            try:
+                px = tmp_xx.index(tuple_max_in_min[1])
+                tmp_yy = tab[:, 0].tolist()
+                try:
+                    py = tmp_yy.index(tuple_max_in_min[2])
+                    tab[py, px] = -1
+                    # tab[pyy, pxx] = -1
+                except:
+                    pass
+            except:
+                pass
 
+            # powiększenie drzewa
+            tmp_j = len(self.list_of_branch) - 1
+            if indeks == 0:
+                self.list_of_branch.append(None)
+                self.list_of_branch.append(None)
+            else:
+                if tmp_j < 2 * indeks + 2:
+                    while tmp_j != 2 * indeks + 2:
+                        self.list_of_branch.append(None)
+                        tmp_j += 1
 
-        # print("Dzieci\n",children)
-        # print("Lewy\n",left)
-        # print("Prawy\n",right)
+            self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2)
+            a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
+            self.list_of_low_bound.append(a)
+            # Dodanie lewego wyciętego
+            # Wycięcie i zablokowanie drogi powrotnej
 
-        return left , right
+            tmp_tab1 = copy.copy(tab)
+            left_child = zeros((len(tab) - 1, len(tab) - 1), int)
+
+            l = 0
+            tmp_xx = tmp_tab1[0, :].tolist()
+            try:
+                pxx = tmp_xx.index(tuple_max_in_min[1])
+
+                tmp_yy = tmp_tab1[:, 0].tolist()
+                try:
+                    pyy = tmp_yy.index(tuple_max_in_min[2])
+                    tmp_tab1[pxx, pyy] = -1
+                except:
+                    pass
+            except:
+                pass
+            for i in range(len(tmp_tab1)):
+                c = 0
+                for z in range(len(tmp_tab1)):
+                    if i != pyy:
+                        if z != pxx:
+                            left_child[l][c] = tmp_tab1[i][z]
+
+                    if z == pxx:
+                        c -= 1
+                    c += 1
+
+                if i == pyy:
+                    l -= 1
+                l += 1
+
+            self.list_of_branch[2 * indeks + 1] = self.element(left_child, value_of_low_band, tuple_max_in_min[1],
+                                                              tuple_max_in_min[2], 2 * indeks + 1)
+
+            a = self.ABC(self.list_of_branch[2 * indeks + 1].lower_bound, 2 * indeks + 1)
+            self.list_of_low_bound.append(a)
+
 
     def find_min_in_row(self,tab,count_row):
         list_of_min_in_row = []
@@ -418,7 +791,7 @@ class Komiwojazer:
                    if a == "False" or b == "False":
                        x = tab[0][j + 1]
                        y = tab[i + 1][0]
-                       vr = max(max(tab[1:,j + 1]),max(tab[i + 1,1:])) + 5  # kolumna potem wiersz
+                       vr = "False"   # kolumna potem wiersz
                        er = self.my_struct(vr, x,y)
                        Opt_cost_for_evry_zero.append(er)
                    else:

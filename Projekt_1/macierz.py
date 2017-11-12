@@ -82,6 +82,8 @@ def creatematrix_ATSP():
     for i in range(dimension):
         tab[0, 1+i:] = i
         tab[1+i :,0] = i
+
+    tab[0][0] = -2
     #print(tab)
 
 
