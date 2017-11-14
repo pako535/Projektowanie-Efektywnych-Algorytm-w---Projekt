@@ -2,7 +2,10 @@ import macierz
 from collections import namedtuple
 from operator import attrgetter
 from numpy import*
+
+from itertools import permutations
 import copy
+
 
 #   Brak usuwania odpowiednich kolumn i wierszy
 #
@@ -25,6 +28,7 @@ class Komiwojazer:
         self.element = namedtuple("element", ['tab', 'lower_bound', 'del_x', 'del_y','index'])
         self.list_of_low_bound = []
         self.list_of_branch = []#.append(tab)
+
 
         element = self.add_element(tab)
         print(element)
@@ -86,8 +90,8 @@ class Komiwojazer:
         print (i,'\n')
         # print(self.list_of_low_bound)
         for q in range(len(self.list_of_branch)):
-            # if self.list_of_branch[i] != None:
-            print(q," -element\n",self.list_of_branch[q],"\n")
+            if self.list_of_branch[q] != None:
+                print(q," -element\n",self.list_of_branch[q],"\n")
 
         print("\n\n\n#### WYNIK :", self.list_of_branch[i],'\n')
     def add_element(self,tab):
@@ -108,7 +112,7 @@ class Komiwojazer:
 
         # Dodanie 0 elementu
         j = len(self.list_of_branch)
-        element = self.element(tab, value_of_low_band, None, None, j)
+        element = self.element(tab, value_of_low_band, None, None, j )
         self.list_of_branch.append(element)
 
         ###############################################################################################################
@@ -191,6 +195,19 @@ class Komiwojazer:
                 l -= 1
             l += 1
 
+        tmp_xx = left_child[0, :].tolist()
+        try:
+            pxx = tmp_xx.index(tuple_max_in_min[2])
+
+            tmp_yy = left_child[:, 0].tolist()
+            try:
+                pyy = tmp_yy.index(tuple_max_in_min[1])
+                left_child[pyy, pxx] = -1
+            except:
+                pass
+        except:
+            pass
+
         value_of_low_band -= tuple_max_in_min[0]
 
         #redukcja wierszy i kolumn
@@ -205,6 +222,10 @@ class Komiwojazer:
 
         value_of_low_band +=  self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
 
+
+
+
+
         self.list_of_branch[2 * j + 1] = self.element(left_child,value_of_low_band,tuple_max_in_min[1], tuple_max_in_min[2],2 * j + 1)
 
         ###############################################################################################################
@@ -218,17 +239,17 @@ class Komiwojazer:
         tuple_max_in_min = self.find_max_opty(left_child)
 
         #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
-
+        right_child = copy.copy(left_child)
         value_of_low_band += tuple_max_in_min[0]
 
         tmp_xx = left_child[0, :].tolist()
         # zablokowanie
         try:
-            px = tmp_xx.index(tuple_max_in_min[1])
+            px = tmp_xx.index(tuple_max_in_min[2])
             tmp_yy = left_child[:, 0].tolist()
             try:
-                py = tmp_yy.index(tuple_max_in_min[2])
-                left_child[px, py] = -1
+                py = tmp_yy.index(tuple_max_in_min[1])
+                right_child[px, py] = -1
                 # tab[pyy, pxx] = -1
             except:
                 pass
@@ -246,7 +267,11 @@ class Komiwojazer:
                     self.list_of_branch.append(None)
                     tmp_j += 1
 
-        self.list_of_branch[2 * j + 2] = self.element(left_child, value_of_low_band, None, None, 2 * j + 2)
+
+
+
+
+        self.list_of_branch[2 * j + 2] = self.element(right_child, value_of_low_band, None, None, 2 * j + 2)
         a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
         self.list_of_low_bound.append(a)
         ###############################################################################################################
@@ -266,7 +291,7 @@ class Komiwojazer:
             tmp_yy = tmp_tab1[:, 0].tolist()
             try:
                 pyy = tmp_yy.index(tuple_max_in_min[2])
-                tmp_tab1[pxx, pyy] = -1
+                # tmp_tab1[pxx, pyy] = -1
             except:
                 pass
         except:
@@ -286,11 +311,32 @@ class Komiwojazer:
                 l -= 1
             l += 1
 
+        tmp_xx = left_child_2[0, :].tolist()
+        try:
+            pxx = tmp_xx.index(tuple_max_in_min[2])
+
+            tmp_yy = left_child_2[:, 0].tolist()
+            try:
+                pyy = tmp_yy.index(tuple_max_in_min[1])
+                left_child_2[pyy, pxx] = -1
+            except:
+                pass
+        except:
+            pass
+
         value_of_low_band -= tuple_max_in_min[0]
 
         # Blokowanie m,p
         blok_x = self.list_of_branch[j][2]
         blok_y = tuple_max_in_min[2]
+
+        # for m in range(len(left_child_2 - 1)):
+        #     a = left_child_2[m + 1 , 1:]
+        #     a= a.tolist()
+        #     if -1 in a == False:
+        #         a.in
+        #     b = left_child_2[1:, m ]
+
 
         tmp_xx = left_child_2[0, :].tolist()
         try:
@@ -315,6 +361,10 @@ class Komiwojazer:
         left_child_2 = self.sub_min_in_column(left_child_2, count_row, list_of_min_in_column)
 
         value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+
+
+
+
 
         self.list_of_branch[2 * j + 1] = self.element(left_child_2, value_of_low_band, tuple_max_in_min[1],
                                                       tuple_max_in_min[2], 2 * j + 1)
@@ -474,7 +524,7 @@ class Komiwojazer:
                 tmp_yy = tmp_tab1[:, 0].tolist()
                 try:
                     pyy = tmp_yy.index(tuple_max_in_min[2])
-                    tmp_tab1[pxx, pyy] = -1
+                    #tmp_tab1[pxx, pyy] = -1
                 except:
                     pass
             except:
@@ -494,6 +544,19 @@ class Komiwojazer:
                     l -= 1
                 l += 1
 
+            tmp_xx = left_child[0, :].tolist()
+            try:
+                pxx = tmp_xx.index(tuple_max_in_min[2])
+
+                tmp_yy = left_child[:, 0].tolist()
+                try:
+                    pyy = tmp_yy.index(tuple_max_in_min[1])
+                    left_child[pyy, pxx] = -1
+                except:
+                    pass
+            except:
+                pass
+
             value_of_low_band -= tuple_max_in_min[0]
 
             # redukcja wierszy i kolumn
@@ -505,7 +568,21 @@ class Komiwojazer:
             list_of_min_in_column = self.find_min_in_column(left_child, count_row)
             left_child = self.sub_min_in_column(left_child, count_row, list_of_min_in_column)
 
-            value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+            a = list_of_min_in_row
+            b = list_of_min_in_column
+            if a == True and b == True:
+                pass
+            if a != True and b!= True:
+                value_of_low_band += self.low_bound(a, b, count_row)
+
+            if a!= True and b ==True:
+                for i in range(len(list_of_min_in_row)):
+                    value_of_low_band += list_of_min_in_row[i][0]
+            if a== True and b!=True:
+                for i in range(len(list_of_min_in_column)):
+                    value_of_low_band += list_of_min_in_column[i][0]
+
+
 
             self.list_of_branch[2 * indeks + 1] = self.element(left_child, value_of_low_band, tuple_max_in_min[1],
                                                           tuple_max_in_min[2], 2 * indeks + 1)
@@ -530,11 +607,11 @@ class Komiwojazer:
             tmp_xx = left_child[0, :].tolist()
             # zablokowanie
             try:
-                px = tmp_xx.index(tuple_max_in_min[1])
+                px = tmp_xx.index(tuple_max_in_min[2])
                 tmp_yy = left_child[:, 0].tolist()
                 try:
-                    py = tmp_yy.index(tuple_max_in_min[2])
-                    left_child[py, px] = -1
+                    py = tmp_yy.index(tuple_max_in_min[1])
+                    left_child[px, py] = -1
                     # tab[pyy, pxx] = -1
                 except:
                     pass
@@ -573,12 +650,12 @@ class Komiwojazer:
             l = 0
             tmp_xx = tmp_tab1[0, :].tolist()
             try:
-                pxx = tmp_xx.index(tuple_max_in_min[2])
+                pxx = tmp_xx.index(tuple_max_in_min[1])
 
                 tmp_yy = tmp_tab1[:, 0].tolist()
                 try:
-                    pyy = tmp_yy.index(tuple_max_in_min[1])
-                    tmp_tab1[pxx, pyy] = -1
+                    pyy = tmp_yy.index(tuple_max_in_min[2])
+                    # tmp_tab1[pxx, pyy] = -1
                 except:
                     pass
             except:
@@ -586,23 +663,45 @@ class Komiwojazer:
             for i in range(len(tmp_tab1)):
                 c = 0
                 for z in range(len(tmp_tab1)):
-                    if i != py:
-                        if z != px:
+                    if i != pyy:
+                        if z != pxx:
                             left_child_2[l][c] = tmp_tab1[i][z]
 
-                    if z == px:
+                    if z == pxx:
                         c -= 1
                     c += 1
 
-                if i == py:
+                if i == pyy:
                     l -= 1
                 l += 1
 
-            value_of_low_band -= tuple_max_in_min[0]
+            tmp_xx = left_child_2[0, :].tolist()
+            try:
+                pxx = tmp_xx.index(tuple_max_in_min[2])
 
-            # Blokowanie m,p
+                tmp_yy = left_child_2[:, 0].tolist()
+                try:
+                    pyy = tmp_yy.index(tuple_max_in_min[1])
+                    left_child_2[pyy, pxx] = -1
+                except:
+                    pass
+            except:
+                pass
+            if tuple_max_in_min[0] != "False":
+                value_of_low_band -= tuple_max_in_min[0]
+
+            # # Blokowanie m,p
             blok_x = self.list_of_branch[j][2]
             blok_y = tuple_max_in_min[2]
+
+            # for m in range(len(left_child_2 - 1)):
+            #     a =left_child_2[m + 1, 1:]
+            #     b =left_child_2[1:, m + 1]
+
+                # for p in range(len(left_child_2 - 1)):
+                #     if left_child_2[m+1][p + 1] == -1:
+                #         a = (filter(lambda x: x >= 0, tab[i + 1, 1:])))
+
 
             tmp_xx = left_child_2[0, :].tolist()
             try:
@@ -627,7 +726,19 @@ class Komiwojazer:
             list_of_min_in_column = self.find_min_in_column(left_child_2, count_row)
             left_child_2 = self.sub_min_in_column(left_child_2, count_row, list_of_min_in_column)
 
-            value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
+            a = list_of_min_in_row
+            b = list_of_min_in_column
+            if a == True and b == True:
+                pass
+            if a != True and b != True:
+                value_of_low_band += self.low_bound(a, b, count_row)
+
+            if a != True and b == True:
+                for i in range(len(list_of_min_in_row)):
+                    value_of_low_band += list_of_min_in_row[i][0]
+            if a == True and b != True:
+                for i in range(len(list_of_min_in_column)):
+                    value_of_low_band += list_of_min_in_column[i][0]
 
             self.list_of_branch[2 * j + 1] = self.element(left_child_2, value_of_low_band, tuple_max_in_min[1],
                                                           tuple_max_in_min[2], 2 * j + 1)

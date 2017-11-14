@@ -35,7 +35,7 @@ def creatematrix_TSP():
             if tekst[counter] == '0':
                 tekst[counter] = infinity
             tab[i][j] = int(tekst[counter])
-            tab[j][i] = -1 #int(tekst[counter])
+            tab[j][i] =int(tekst[counter])
             counter += 1
             j += 1
             k = True
@@ -44,12 +44,18 @@ def creatematrix_TSP():
 
         if k == False:
              counter += 1
+
+    for i in range(dimension):
+        tab[0, 1 + i:] = i
+        tab[1 + i:, 0] = i
+
+        tab[0][0] = -2
     #print(tab)
     return tab
 
 
 def creatematrix_ATSP():
-    file = 'my.atsp'
+    file = 'my4.atsp'
     tekst = open(file).read()
 
     #print(tekst)
@@ -74,7 +80,7 @@ def creatematrix_ATSP():
 
     for i in range(dimension):
         for j in range(dimension):
-            if tekst[counter] == '100000000':
+            if tekst[counter] =='100000000': # '9999':
                 tekst[counter] = infinity
             tab[i+1][j+1] = int(tekst[counter])
             counter += 1
