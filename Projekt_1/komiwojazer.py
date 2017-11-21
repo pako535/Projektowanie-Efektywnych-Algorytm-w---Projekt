@@ -25,7 +25,7 @@ class Komiwojazer:
         self.ABC = namedtuple("ABC", ['value', 'index'])
         self.my_struct = namedtuple("my_struct",['value','x','y'])
         self.tab = tab
-        self.element = namedtuple("element", ['tab', 'lower_bound', 'del_x', 'del_y','index'])
+        self.element = namedtuple("element", ['tab', 'lower_bound', 'del_x', 'del_y','index','committed'])
         self.list_of_low_bound = []
         self.list_of_branch = []#.append(tab)
 
@@ -76,7 +76,7 @@ class Komiwojazer:
                     tmp_j = j
             self.list_of_low_bound.remove(self.list_of_low_bound[tmp_j])
 
-            self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i)
+            self.add_element1(self.list_of_branch[i][0], self.list_of_branch[i][1], i, self.list_of_branch[i][5])
 
             self.list_of_low_bound = sorted(self.list_of_low_bound, key=attrgetter('index'))
             min = self.list_of_low_bound[0][0]
@@ -90,8 +90,13 @@ class Komiwojazer:
         print (i,'\n')
         # print(self.list_of_low_bound)
         for q in range(len(self.list_of_branch)):
-            if self.list_of_branch[q] != None:
-                print(q," -element\n",self.list_of_branch[q],"\n")
+            try:
+                kkkk = self.list_of_branch[q][5]
+                if self.list_of_branch[q] != None:
+                    print(q," -element\n",self.list_of_branch[q],"\n",kkkk.sort())
+            except:
+                if self.list_of_branch[q] != None:
+                    print(q, " -element\n", self.list_of_branch[q])
 
         print("\n\n\n#### WYNIK :", self.list_of_branch[i],'\n')
     def add_element(self,tab):
@@ -107,12 +112,12 @@ class Komiwojazer:
         tmp_tab = self.sub_min_in_row(tmp_tab, count_row, list_of_min_in_row)
         list_of_min_in_column = self.find_min_in_column(tmp_tab, count_row)
         tmp_tab = self.sub_min_in_column(tmp_tab, count_row, list_of_min_in_column)
-
+        commited = []
         value_of_low_band = self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
 
         # Dodanie 0 elementu
         j = len(self.list_of_branch)
-        element = self.element(tab, value_of_low_band, None, None, j )
+        element = self.element(tab, value_of_low_band, None, None, j , commited)
         self.list_of_branch.append(element)
 
         ###############################################################################################################
@@ -121,7 +126,7 @@ class Komiwojazer:
 
         # Szukanie max kosztu wyłączenia
         # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_opty(tmp_tab)
+        tuple_max_in_min = self.find_max_opty(tmp_tab,commited)
 
 
         #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
@@ -153,7 +158,7 @@ class Komiwojazer:
                     self.list_of_branch.append(None)
                     tmp_j += 1
 
-        self.list_of_branch[2 * j + 2] = self.element(tmp_tab,value_of_low_band,None, None,2 * j + 2)
+        self.list_of_branch[2 * j + 2] = self.element(tmp_tab,value_of_low_band,None, None,2 * j + 2, commited)
 
         a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
         self.list_of_low_bound.append(a)
@@ -222,11 +227,12 @@ class Komiwojazer:
 
         value_of_low_band +=  self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
 
+        commited1 = copy.copy(commited)
+        commited1.append(tuple_max_in_min[2])
 
 
 
-
-        self.list_of_branch[2 * j + 1] = self.element(left_child,value_of_low_band,tuple_max_in_min[1], tuple_max_in_min[2],2 * j + 1)
+        self.list_of_branch[2 * j + 1] = self.element(left_child,value_of_low_band,tuple_max_in_min[1], tuple_max_in_min[2],2 * j + 1,commited1)
 
         ###############################################################################################################
         # Krok 4
@@ -236,7 +242,7 @@ class Komiwojazer:
         j = 2 * j + 1
         # Szukanie max kosztu wyłączenia
         # 0 - value, 1 - x ,2 - y
-        tuple_max_in_min = self.find_max_opty(left_child)
+        tuple_max_in_min = self.find_max_opty(left_child, commited1)
 
         #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
         right_child = copy.copy(left_child)
@@ -271,7 +277,7 @@ class Komiwojazer:
 
 
 
-        self.list_of_branch[2 * j + 2] = self.element(right_child, value_of_low_band, None, None, 2 * j + 2)
+        self.list_of_branch[2 * j + 2] = self.element(right_child, value_of_low_band, None, None, 2 * j + 2,commited1)
         a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
         self.list_of_low_bound.append(a)
         ###############################################################################################################
@@ -362,12 +368,11 @@ class Komiwojazer:
 
         value_of_low_band += self.low_bound(list_of_min_in_row, list_of_min_in_column, count_row)
 
-
-
-
+        commited2 = copy.copy(commited1)
+        commited2.append(tuple_max_in_min[2])
 
         self.list_of_branch[2 * j + 1] = self.element(left_child_2, value_of_low_band, tuple_max_in_min[1],
-                                                      tuple_max_in_min[2], 2 * j + 1)
+                                                      tuple_max_in_min[2], 2 * j + 1,commited2)
 
         a = self.ABC(self.list_of_branch[2 * j + 1].lower_bound, 2 * j + 1)
         self.list_of_low_bound.append(a)
@@ -463,7 +468,7 @@ class Komiwojazer:
     #
     #     return left , right
 
-    def add_element1(self,tab,value_of_low_band ,indeks):
+    def add_element1(self,tab,value_of_low_band ,indeks , commited):
         if len(tab) != 3:
             ###############################################################################################################
             # Krok 2
@@ -471,7 +476,7 @@ class Komiwojazer:
 
             # Szukanie max kosztu wyłączenia
             # 0 - value, 1 - x ,2 - y
-            tuple_max_in_min = self.find_max_opty(tab)
+            tuple_max_in_min = self.find_max_opty(tab, commited)
 
             #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
 
@@ -502,7 +507,7 @@ class Komiwojazer:
                         self.list_of_branch.append(None)
                         tmp_j += 1
 
-            self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2)
+            self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2, commited)
             a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
             self.list_of_low_bound.append(a)
             ###############################################################################################################
@@ -582,10 +587,11 @@ class Komiwojazer:
                 for i in range(len(list_of_min_in_column)):
                     value_of_low_band += list_of_min_in_column[i][0]
 
-
+            commited1 = copy.copy(commited)
+            commited1.append(tuple_max_in_min[2])
 
             self.list_of_branch[2 * indeks + 1] = self.element(left_child, value_of_low_band, tuple_max_in_min[1],
-                                                          tuple_max_in_min[2], 2 * indeks + 1)
+                                                          tuple_max_in_min[2], 2 * indeks + 1, commited1)
 
             ###############################################################################################################
             # Krok 4
@@ -595,7 +601,7 @@ class Komiwojazer:
             j = 2 * indeks + 1
             # Szukanie max kosztu wyłączenia
             # 0 - value, 1 - x ,2 - y
-            tuple_max_in_min = self.find_max_opty(left_child)
+            tuple_max_in_min = self.find_max_opty(left_child, commited1)
 
             #   Dodanie prawego dziecka z zablokowana droga o max opt kosztem wylaczenia
             if tuple_max_in_min[0] != "False":
@@ -634,10 +640,10 @@ class Komiwojazer:
             # self.list_of_low_bound.append(a)
 
             if tuple_max_in_min[0] != "False":
-                self.list_of_branch[2 * j + 2] = self.element(tab, value_of_low_band, None, None, 2 * j + 2)
+                self.list_of_branch[2 * j + 2] = self.element(tab, value_of_low_band, None, None, 2 * j + 2,commited1)
                 #a = self.ABC(self.list_of_branch[2 * j + 2].lower_bound, 2 * j + 2)
             else:
-                self.list_of_branch[2 * j + 2] = self.element(tab, value_of_low_band1, None, None, 2 * j + 2)
+                self.list_of_branch[2 * j + 2] = self.element(tab, value_of_low_band1, None, None, 2 * j + 2,commited1 )
             ###############################################################################################################
             ###### Powtórzenie korku 3
             ###############################################################################################################
@@ -740,8 +746,11 @@ class Komiwojazer:
                 for i in range(len(list_of_min_in_column)):
                     value_of_low_band += list_of_min_in_column[i][0]
 
+            commited2 = copy.copy(commited1)
+            commited2.append(tuple_max_in_min[2])
+
             self.list_of_branch[2 * j + 1] = self.element(left_child_2, value_of_low_band, tuple_max_in_min[1],
-                                                          tuple_max_in_min[2], 2 * j + 1)
+                                                          tuple_max_in_min[2], 2 * j + 1, commited2)
 
             a = self.ABC(self.list_of_branch[2 * j + 1].lower_bound, 2 * j + 1)
             self.list_of_low_bound.append(a)
@@ -788,10 +797,10 @@ class Komiwojazer:
                         self.list_of_branch.append(None)
                         tmp_j += 1
             if tuple_max_in_min[0] != "False":
-                self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2)
+                self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band, None, None, 2 * indeks + 2, commited)
                 a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
             else:
-                self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band1, None, None, 2 * indeks + 2)
+                self.list_of_branch[2 * indeks + 2] = self.element(tab, value_of_low_band1, None, None, 2 * indeks + 2, commited)
 
             a = self.ABC(self.list_of_branch[2 * indeks + 2].lower_bound, 2 * indeks + 2)
             self.list_of_low_bound.append(a)
@@ -828,9 +837,11 @@ class Komiwojazer:
                 if i == pyy:
                     l -= 1
                 l += 1
+            commited1 = copy.copy(commited)
+            commited1.append(tuple_max_in_min[2])
 
             self.list_of_branch[2 * indeks + 1] = self.element(left_child, value_of_low_band, tuple_max_in_min[1],
-                                                              tuple_max_in_min[2], 2 * indeks + 1)
+                                                              tuple_max_in_min[2], 2 * indeks + 1, commited1)
 
             a = self.ABC(self.list_of_branch[2 * indeks + 1].lower_bound, 2 * indeks + 1)
             self.list_of_low_bound.append(a)
@@ -901,7 +912,7 @@ class Komiwojazer:
         #print('\nValue of low bound: ', value_of_low_band)
         return value_of_low_band
 
-    def find_max_opty(self, tab):
+    def find_max_opty(self, tab, commted ):
 
         Opt_cost_for_evry_zero = []
 
@@ -916,29 +927,48 @@ class Komiwojazer:
                        y = tab[i + 1][0]
                        vr = "False"   # kolumna potem wiersz
                        er = self.my_struct(vr, x,y)
-                       Opt_cost_for_evry_zero.append(er)
+                       if y not in commted:
+                           Opt_cost_for_evry_zero.append(er)
                    else:
                        vr = a + b   # kolumna potem wiersz
                        x = tab[0][j+  1]
                        y = tab[i + 1][0]
                        er = self.my_struct(vr,x,y)
-                       Opt_cost_for_evry_zero.append(er)
+                       if y not in commted:
+                           Opt_cost_for_evry_zero.append(er)
 
-        flag = False
-        for i in range(len(Opt_cost_for_evry_zero)):
-            if Opt_cost_for_evry_zero[i][0] != "False":
-                flag = True
 
-        if flag == True:
-            maxii = - 2
+        if len(Opt_cost_for_evry_zero) !=0 :
+            flag = False
             for i in range(len(Opt_cost_for_evry_zero)):
                 if Opt_cost_for_evry_zero[i][0] != "False":
-                    if Opt_cost_for_evry_zero[i][0] > maxii:
-                        maxii = Opt_cost_for_evry_zero[i][0]
-                        maxi = Opt_cost_for_evry_zero[i]
+                    flag = True
 
+            if flag == True:
+                maxii = - 2
+                for i in range(len(Opt_cost_for_evry_zero)):
+                    if Opt_cost_for_evry_zero[i][0] != "False":
+                        if Opt_cost_for_evry_zero[i][0] > maxii:
+                            maxii = Opt_cost_for_evry_zero[i][0]
+                            maxi = Opt_cost_for_evry_zero[i]
+
+            else:
+                maxi = max(Opt_cost_for_evry_zero)
         else:
-            maxi = max(Opt_cost_for_evry_zero)
+            dl = len(tab) - 1
+            min = tab.max()
+
+            maxi = [1, 1, 1, True]
+            for i in range(dl):
+                for j in range(dl):
+                    if tab[i + 1][j + 1] < min and tab[i + 1][j + 1] != -1 and tab[0][j + 1] not in commted:
+                        min = tab[i + 1][j + 1]
+                        maxi[0] = tab[i + 1][j + 1]
+                        maxi[1] = tab[0][j + 1]
+                        maxi[2] = tab[i + 1][0]
+                        maxi[3] = True
+
+            return maxi[0], maxi[1], maxi[2], maxi[3]
 
 
 
